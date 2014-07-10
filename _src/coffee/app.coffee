@@ -54,8 +54,8 @@ $ ->
           $('.progress-bar').css('width', "#{percentage}%");
           #console.log(bytesUploaded, bytesTotal, "#{percentage}%");
         )
-        .done((url, file) ->
-          $download = $("<a>Download #{file.name} (#{file.size} bytes)</a><br />").appendTo($parent)
+        .done((url, file, md5) ->
+          $download = $("<a>Download #{file.name} (#{file.size} bytes #{md5})</a><br />").appendTo($parent)
           $download.attr('href', url)
           $download.addClass('btn').addClass('btn-success')
         )

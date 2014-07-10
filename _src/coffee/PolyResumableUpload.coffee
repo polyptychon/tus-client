@@ -36,8 +36,8 @@ class PolyResumableUpload extends ResumableUpload
   _emitDone : ->
     @_moveFile()
 
-  _moveDone : ->
-    @_deferred.resolveWith(this, [@fileUrl, @file])
+  _moveDone : (md5)->
+    @_deferred.resolveWith(this, [@fileUrl, @file, md5])
 
   _moveFile : ->
     headers = $.extend({
@@ -61,10 +61,11 @@ class PolyResumableUpload extends ResumableUpload
       )
       .done(
           (data, textStatus, jqXHR) =>
+            checksum = jqXHR.getResponseHeader('Checksum')
             location = jqXHR.getResponseHeader('Location')
             return _emitFail('Could not get url for file resource. ' + textStatus, jqXHR.status) unless location
             @fileUrl = location
-            @_moveDone()
+            @_moveDone(checksum)
       )
 
 module.exports = PolyResumableUpload
