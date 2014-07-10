@@ -57,6 +57,18 @@ gulp.task('coffee', function() {
     .pipe(gulp.dest(getOutputDir()))
 });
 
+gulp.task('lib', function() {
+  gulp.src(SRC+'/coffee/Tus.coffee', { read: false })
+    .pipe(browserify({
+      debug: false,
+      transform: ['coffeeify'],
+      extensions: ['.coffee'],
+      ignore: ['jquery']
+    }))
+    .pipe(rename('app.js'))
+    .pipe(gulp.dest(LIB))
+});
+
 gulp.task('fonts', function() {
   return gulp.src('bower_components/bootstrap-sass/fonts/*')
     .pipe(gulp.dest(getOutputDir()+ASSETS+'/fonts'));
