@@ -14,9 +14,7 @@ var gulp = require('gulp'),
 var DEVELOPMENT = 'development',
     PRODUCTION = 'production',
     BUILD = "builds/",
-    LIB = "lib/",
     ASSETS = "/assets",
-    MOCKUPS = "_mockups",
     SRC = "_src";
 
 var env = process.env.NODE_ENV || DEVELOPMENT;
@@ -55,18 +53,6 @@ gulp.task('coffee', function() {
     .pipe(gulpif(env === PRODUCTION, uglify()))
     .pipe(rename(ASSETS+'/js/app.js'))
     .pipe(gulp.dest(getOutputDir()))
-});
-
-gulp.task('lib', function() {
-  gulp.src(SRC+'/coffee/Tus.coffee', { read: false })
-    .pipe(browserify({
-      debug: false,
-      transform: ['coffeeify'],
-      extensions: ['.coffee'],
-      ignore: ['jquery']
-    }))
-    .pipe(rename('app.js'))
-    .pipe(gulp.dest(LIB))
 });
 
 gulp.task('fonts', function() {
