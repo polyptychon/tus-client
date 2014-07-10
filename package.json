@@ -2,18 +2,26 @@
   "name": "TUS-Client",
   "version": "0.1.0",
   "description": "Upload Client for TUS",
-  "homepage": "",
-  "bugs": "",
-  "main": "src/js/main.js",
+  "homepage": "https://github.com/polyptychon/tus-client",
+  "bugs": "https://github.com/polyptychon/tus-client/issues",
+  "main": "lib/app.js",
   "author": {
     "name": "Harris Sidiropoulos",
     "email": ""
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/polyptychon/tus-client"
   },
   "license": "MIT",
+  "files": [
+    "lib"
+  ],
+  "keywords": [
+    "tus",
+    "upload",
+    "resumable"
+  ],
   "devDependencies": {
     "coffeeify": "^0.6.0",
     "gulp": "~3.8.1",
@@ -32,8 +40,7 @@
     "run-sequence": "^0.3.6"
   },
   "dependencies": {
-    "jquery": "^2.1.1",
-    "md5-file": "^1.1.1"
+    "jquery": "^2.1.1"
   },
   "scripts": {
     "test": "gulp"

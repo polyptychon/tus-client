@@ -1,6 +1,5 @@
 $ = require "jquery"
 ResumableUpload = require "./ResumableUpload.coffee"
-tusCheck = require "./TusCheck.coffee"
 tus = require "./Tus.coffee"
 
 $ ->
@@ -30,7 +29,7 @@ $ ->
 
     $('.progress').addClass('active')
 
-    tusCheck.check(file, options)
+    tus.check(file, options)
       .fail((error, status) ->
         startUpload()
       )
