@@ -1,0 +1,70 @@
+$ = require "jquery"
+ResumableUpload = require "./ResumableUpload.coffee"
+
+class PolyResumableUpload extends ResumableUpload
+
+  PolyResumableUpload.DEFAULTS =
+    chunkSize: 1
+    minChunkSize: 51200
+    maxChunkSize: 2097152*100
+    path: ""
+
+  constructor: (file, options) ->
+    options = $.extend(PolyResumableUpload.DEFAULTS, options)
+
+    @_chunkTimer = -1
+
+    super(file, options)
+
+  _getChunkSize : ->
+    if (@_chunkTimer < 0)
+      chunkSize = @options.minChunkSize
+    else
+      diff = (new Date().getTime()) - @_chunkTimer
+      chunkSize = Math.round(@options.chunkSize / diff * 1000)
+
+    @_chunkTimer = new Date().getTime()
+
+    return Math.min(Math.max(@options.minChunkSize, chunkSize), @options.maxChunkSize)
+
+  _uploadFile : (range_from) ->
+    if (@options.chunkSize)
+      @options.chunkSize = @_getChunkSize()
+
+    super(range_from)
+
+  _emitDone : ->
+    @_moveFile()
+
+  _moveDone : ->
+    @_deferred.resolveWith(this, [@fileUrl, @file])
+
+  _moveFile : ->
+    headers = $.extend({
+      'Final-Length': @file.size
+      'file-path': "#{@options.path}/#{@file.name}"
+    }, @options.headers)
+
+    options =
+      type:    'PUT'
+      url:     @fileUrl
+      cache:   false
+      headers: headers
+
+    $.ajax(options)
+      .fail(
+        (jqXHR, textStatus, errorThrown) =>
+          if(jqXHR.status == 404)
+            @_emitFail("Could not move file resource: #{textStatus}", jqXHR.status)
+          else
+            @_emitFail("Could not head at file resource: #{textStatus}", jqXHR.status)
+      )
+      .done(
+          (data, textStatus, jqXHR) =>
+            location = jqXHR.getResponseHeader('Location')
+            return _emitFail('Could not get url for file resource. ' + textStatus, jqXHR.status) unless location
+            @fileUrl = location
+            @_moveDone()
+      )
+
+module.exports = PolyResumableUpload

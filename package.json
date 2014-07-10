@@ -1,0 +1,41 @@
+{
+  "name": "TUS-Client",
+  "version": "0.1.0",
+  "description": "Upload Client for TUS",
+  "homepage": "",
+  "bugs": "",
+  "main": "src/js/main.js",
+  "author": {
+    "name": "Harris Sidiropoulos",
+    "email": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "coffeeify": "^0.6.0",
+    "gulp": "~3.8.1",
+    "gulp-autoprefixer": "0.0.7",
+    "gulp-browserify": "~0.5.0",
+    "gulp-connect": "~2.0.5",
+    "gulp-csso": "^0.2.9",
+    "gulp-ftp": "^0.3.0",
+    "gulp-grunt": "^0.5.1",
+    "gulp-if": "~1.2.0",
+    "gulp-jade": "~0.5.0",
+    "gulp-livereload": "~1.5.0",
+    "gulp-rename": "^1.2.0",
+    "gulp-sass": "~0.7.1",
+    "gulp-uglify": "~0.3.0",
+    "run-sequence": "^0.3.6"
+  },
+  "dependencies": {
+    "jquery": "^2.1.1",
+    "md5-file": "^1.1.1"
+  },
+  "scripts": {
+    "test": "gulp"
+  }
+}

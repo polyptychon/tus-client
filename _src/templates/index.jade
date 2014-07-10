@@ -1,0 +1,37 @@
+doctype html
+html
+  head
+    title TUS Upload
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    link(rel="stylesheet", href="assets/css/main.css")
+
+  body
+    .container
+      h1 tus-jquery-client demo
+      p
+        | For a prettier demo please go to the
+        a(href='http://tus.io/demo.html') tus.io
+        | website.
+        | This demo is just here to aid developers.
+      br
+      input(type='file')
+      br
+      label(for='reset_before')
+        input#reset_before(type='checkbox', name='reset_before')
+        | Perform full upload (even if we could resume)
+      br
+      .row
+        .col-md-8
+          .progress
+            .progress-bar(role="progressbar", aria-valuenow="60", aria-valuemin="0", aria-valuemax="100", style="width: 0%;")
+              span.sr-only 60% Complete
+        .col-md-4
+          button.btn.btn-danger.stop.js-stop.disabled
+            i.icon-white.icon-stop
+            | abort upload
+      hr
+      h3 Uploads
+      p
+        | Succesful uploads will be listed here. Try one!
+
+  script(src="assets/js/app.js")
