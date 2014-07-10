@@ -1,5 +1,5 @@
 $ = require "jquery"
-ResumableUpload = require "./ResumableUpload.coffee"
+ResumableUpload = require "./ResumableUpload"
 
 class PolyResumableUpload extends ResumableUpload
 

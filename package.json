@@ -4,7 +4,7 @@
   "description": "Upload Client for TUS",
   "homepage": "https://github.com/polyptychon/tus-client",
   "bugs": "https://github.com/polyptychon/tus-client/issues",
-  "main": "lib/app.js",
+  "main": "_src/coffee/Tus.js",
   "author": {
     "name": "Harris Sidiropoulos",
     "email": ""
