@@ -65,7 +65,7 @@ gulp.task('lib', function() {
       extensions: ['.coffee'],
       ignore: ['jquery']
     }))
-    .pipe(gulpif(env === PRODUCTION, uglify()))
+    .pipe(uglify())
     .pipe(rename('app.js'))
     .pipe(gulp.dest(LIB))
 });
