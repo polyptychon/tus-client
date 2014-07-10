@@ -65,8 +65,8 @@ gulp.task('lib', function() {
       extensions: ['.coffee'],
       ignore: ['jquery']
     }))
-    .pipe(rename('/coffee/app.js'))
-    .pipe(gulp.dest(SRC))
+    .pipe(rename('app.js'))
+    .pipe(gulp.dest(LIB))
 });
 
 gulp.task('fonts', function() {
