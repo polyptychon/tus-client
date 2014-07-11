@@ -10,7 +10,7 @@
 
   $(function() {
     var upload;
-    if (!ResumableUpload.SUPPORT) {
+    if (!tus.UploadSupport) {
       console.log("Upload is not supported");
       return;
     }

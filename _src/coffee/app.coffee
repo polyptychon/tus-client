@@ -3,7 +3,7 @@ ResumableUpload = require "./ResumableUpload.coffee"
 tus = require "./Tus.coffee"
 
 $ ->
-  unless ResumableUpload.SUPPORT
+  unless tus.UploadSupport
     console.log "Upload is not supported"
     return
 

@@ -1,4 +1,5 @@
 $ = require "jquery"
+ResumableUpload = require "./ResumableUpload"
 PolyResumableUpload = require "./PolyResumableUpload"
 CheckFileExists = require "./CheckFileExists"
 FileChecksum = require "./FileChecksum"
@@ -16,4 +17,5 @@ module.exports = {
     checksum = new FileChecksum(file, options)
     checksum._computeChecksum(0) if (file)
     return checksum
+  UploadSupport: ResumableUpload.SUPPORT
 }
