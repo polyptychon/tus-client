@@ -31,11 +31,17 @@ $ ->
 
     tus.check(file, options)
       .fail((error, status) ->
-        getChecksum()
+        if $('#checksum').prop('checked')
+          getChecksum()
+        else
+          startUpload()
       )
       .done((url, file) ->
         if (confirm("Do you want to overwrite file #{file.name}?"))
-          getChecksum()
+          if $('#checksum').prop('checked')
+            getChecksum()
+          else
+            startUpload()
       )
 
     getChecksum = ->

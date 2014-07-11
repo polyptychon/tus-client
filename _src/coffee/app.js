@@ -34,10 +34,18 @@
       };
       $('.progress').addClass('active');
       tus.check(file, options).fail(function(error, status) {
-        return getChecksum();
+        if ($('#checksum').prop('checked')) {
+          return getChecksum();
+        } else {
+          return startUpload();
+        }
       }).done(function(url, file) {
         if (confirm("Do you want to overwrite file " + file.name + "?")) {
-          return getChecksum();
+          if ($('#checksum').prop('checked')) {
+            return getChecksum();
+          } else {
+            return startUpload();
+          }
         }
       });
       getChecksum = function() {
