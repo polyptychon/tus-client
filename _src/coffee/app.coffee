@@ -31,18 +31,18 @@ $ ->
 
     tus.check(file, options)
       .fail((error, status) ->
-        if $('#checksum').prop('checked')
-          getChecksum()
-        else
-          startUpload()
+        upload()
       )
       .done((url, file) ->
         if (confirm("Do you want to overwrite file #{file.name}?"))
-          if $('#checksum').prop('checked')
-            getChecksum()
-          else
-            startUpload()
+          upload()
       )
+    upload = ->
+      if $('#checksum').prop('checked')
+        getChecksum()
+      else
+        options.clientChecksum = null
+        startUpload()
 
     getChecksum = ->
       tus.checksum(file, options)
@@ -70,10 +70,11 @@ $ ->
           $('.progress-bar').css('width', "#{percentage}%");
         )
         .done((url, file, md5) ->
-          if (options.clientChecksum==md5)
-            console.log("File checksum is ok.\nServer Checksum: #{md5} = Client: #{options.clientChecksum}")
-          else
-            console.log("File checksum error.\nServer Checksum: #{md5} = Client: #{options.clientChecksum}")
+          if (options.clientChecksum)
+            if (options.clientChecksum==md5)
+              console.log("File checksum is ok.\nServer Checksum: #{md5} = Client: #{options.clientChecksum}")
+            else
+              console.log("File checksum error.\nServer Checksum: #{md5} = Client: #{options.clientChecksum}")
 
           $download = $("<a>Download #{file.name} (#{file.size} bytes #{md5})</a><br />").appendTo($parent)
           $download.attr('href', url)

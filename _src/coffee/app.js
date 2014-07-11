@@ -34,20 +34,20 @@
       };
       $('.progress').addClass('active');
       tus.check(file, options).fail(function(error, status) {
+        return upload();
+      }).done(function(url, file) {
+        if (confirm("Do you want to overwrite file " + file.name + "?")) {
+          return upload();
+        }
+      });
+      upload = function() {
         if ($('#checksum').prop('checked')) {
           return getChecksum();
         } else {
+          options.clientChecksum = null;
           return startUpload();
         }
-      }).done(function(url, file) {
-        if (confirm("Do you want to overwrite file " + file.name + "?")) {
-          if ($('#checksum').prop('checked')) {
-            return getChecksum();
-          } else {
-            return startUpload();
-          }
-        }
-      });
+      };
       getChecksum = function() {
         return tus.checksum(file, options).progress(function(e, bytesUploaded, bytesTotal) {
           var percentage;
@@ -71,10 +71,12 @@
           return $('.progress-bar').css('width', "" + percentage + "%");
         }).done(function(url, file, md5) {
           var $download;
-          if (options.clientChecksum === md5) {
-            console.log("File checksum is ok.\nServer Checksum: " + md5 + " = Client: " + options.clientChecksum);
-          } else {
-            console.log("File checksum error.\nServer Checksum: " + md5 + " = Client: " + options.clientChecksum);
+          if (options.clientChecksum) {
+            if (options.clientChecksum === md5) {
+              console.log("File checksum is ok.\nServer Checksum: " + md5 + " = Client: " + options.clientChecksum);
+            } else {
+              console.log("File checksum error.\nServer Checksum: " + md5 + " = Client: " + options.clientChecksum);
+            }
           }
           $download = $("<a>Download " + file.name + " (" + file.size + " bytes " + md5 + ")</a><br />").appendTo($parent);
           $download.attr('href', url);
