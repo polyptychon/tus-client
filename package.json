@@ -1,6 +1,6 @@
 {
   "name": "TUS-Client",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Upload Client for TUS",
   "homepage": "https://github.com/polyptychon/tus-client",
   "bugs": "https://github.com/polyptychon/tus-client/issues",
