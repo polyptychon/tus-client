@@ -14,7 +14,7 @@
     PolyResumableUpload.DEFAULTS = {
       chunkSize: 1,
       minChunkSize: 51200,
-      maxChunkSize: 2097152 * 100,
+      maxChunkSize: 2097152,
       path: ""
     };
 
@@ -77,7 +77,7 @@
           checksum = jqXHR.getResponseHeader('Checksum');
           location = jqXHR.getResponseHeader('Location');
           if (!location) {
-            return _emitFail('Could not get url for file resource. ' + textStatus, jqXHR.status);
+            return _this._emitFail('Could not get url for file resource. ' + textStatus, jqXHR.status);
           }
           _this.fileUrl = location;
           return _this._moveDone(checksum);

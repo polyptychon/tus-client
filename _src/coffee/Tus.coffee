@@ -1,6 +1,7 @@
 $ = require "jquery"
 PolyResumableUpload = require "./PolyResumableUpload"
 CheckFileExists = require "./CheckFileExists"
+FileChecksum = require "./FileChecksum"
 
 module.exports = {
   upload: (file, options) ->
@@ -11,4 +12,8 @@ module.exports = {
     check = new CheckFileExists(file, options)
     check._checkFileExists() if (file)
     return check
+  checksum: (file, options) ->
+    checksum = new FileChecksum(file, options)
+    checksum._computeChecksum(0) if (file)
+    return checksum
 }

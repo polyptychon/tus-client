@@ -6,7 +6,7 @@ class PolyResumableUpload extends ResumableUpload
   PolyResumableUpload.DEFAULTS =
     chunkSize: 1
     minChunkSize: 51200
-    maxChunkSize: 2097152*100
+    maxChunkSize: 2097152
     path: ""
 
   constructor: (file, options) ->
@@ -60,12 +60,12 @@ class PolyResumableUpload extends ResumableUpload
             @_emitFail("Could not head at file resource: #{textStatus}", jqXHR.status)
       )
       .done(
-          (data, textStatus, jqXHR) =>
-            checksum = jqXHR.getResponseHeader('Checksum')
-            location = jqXHR.getResponseHeader('Location')
-            return _emitFail('Could not get url for file resource. ' + textStatus, jqXHR.status) unless location
-            @fileUrl = location
-            @_moveDone(checksum)
+        (data, textStatus, jqXHR) =>
+          checksum = jqXHR.getResponseHeader('Checksum')
+          location = jqXHR.getResponseHeader('Location')
+          return @_emitFail('Could not get url for file resource. ' + textStatus, jqXHR.status) unless location
+          @fileUrl = location
+          @_moveDone(checksum)
       )
 
 module.exports = PolyResumableUpload
