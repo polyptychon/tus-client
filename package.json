@@ -14,9 +14,6 @@
     "url": "https://github.com/polyptychon/tus-client"
   },
   "license": "MIT",
-  "files": [
-    "lib"
-  ],
   "keywords": [
     "tus",
     "upload",
