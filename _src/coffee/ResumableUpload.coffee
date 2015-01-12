@@ -1,5 +1,3 @@
-$ = require "jquery"
-
 class ResumableUpload
 
   ResumableUpload.SUPPORT = ->
