@@ -34,7 +34,6 @@
           return tus.checksum(file, options);
         }
       }).then(function(result) {
-        console.log(file);
         if ($('#checksum').prop('checked')) {
           options.clientChecksum = result.md5;
         }
