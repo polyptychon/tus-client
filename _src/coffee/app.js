@@ -29,7 +29,11 @@
       options = {
         endpoint: 'http://localhost:1080/files/',
         resetBefore: $('#reset_before').prop('checked'),
-        resetAfter: true
+        resetAfter: true,
+        chunkSize: 1,
+        minChunkSize: 51200,
+        maxChunkSize: 2097152,
+        path: ""
       };
       openDialogIfFileExist = function(error) {
         if (confirm("Do you want to overwrite file " + file.name + "?")) {
