@@ -25,12 +25,12 @@
       $parent = $input.parent();
       file = this.files[0];
       $('.js-stop').removeClass('disabled');
+      $('.progress').addClass('active');
       options = {
         endpoint: 'http://localhost:1080/files/',
         resetBefore: $('#reset_before').prop('checked'),
         resetAfter: true
       };
-      $('.progress').addClass('active');
       openDialogIfFileExist = function() {
         if (confirm("Do you want to overwrite file " + file.name + "?")) {
           return true;
