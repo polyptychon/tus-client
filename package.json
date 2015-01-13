@@ -38,7 +38,8 @@
   },
   "dependencies": {
     "jquery": "^2.1.1",
-    "q": "^1.1.2"
+    "q": "^1.1.2",
+    "spark-md5": "0.0.5"
   },
   "scripts": {
     "test": "gulp"

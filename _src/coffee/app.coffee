@@ -28,6 +28,7 @@ $ ->
         return tus.checksum(file, options) if $('#checksum').prop('checked')
       )
       .then((result)->
+        console.log(file)
         options.clientChecksum = result.md5 if $('#checksum').prop('checked')
         return tus.upload(file, options)
       )

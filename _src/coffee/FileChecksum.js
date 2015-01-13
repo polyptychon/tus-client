@@ -4,7 +4,7 @@
 
   $ = require("jquery");
 
-  SparkMD5 = require("./spark-md5");
+  SparkMD5 = require("spark-md5");
 
   FileChecksum = (function() {
     FileChecksum.DEFAULTS = {
