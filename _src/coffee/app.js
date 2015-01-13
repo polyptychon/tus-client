@@ -31,15 +31,15 @@
         resetAfter: true
       };
       $('.progress').addClass('active');
-      return tus.check(file, options).then(function(result) {
-        if ($('#checksum').prop('checked')) {
-          return tus.checksum(file, options);
-        }
-      })["catch"](function(error) {
+      return tus.check(file, options)["catch"](function(error) {
         if (confirm("Do you want to overwrite file " + file.name + "?")) {
           return true;
         } else {
           return Q.reject(error);
+        }
+      }).then(function(result) {
+        if ($('#checksum').prop('checked')) {
+          return tus.checksum(file, options);
         }
       }).then(function(result) {
         if ($('#checksum').prop('checked')) {
