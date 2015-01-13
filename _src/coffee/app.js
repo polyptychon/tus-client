@@ -31,7 +31,7 @@
         resetBefore: $('#reset_before').prop('checked'),
         resetAfter: true
       };
-      openDialogIfFileExist = function() {
+      openDialogIfFileExist = function(error) {
         if (confirm("Do you want to overwrite file " + file.name + "?")) {
           return true;
         } else {

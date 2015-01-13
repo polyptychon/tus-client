@@ -23,7 +23,7 @@ $ ->
       resetBefore: $('#reset_before').prop('checked')
       resetAfter: true
 
-    openDialogIfFileExist = ()->
+    openDialogIfFileExist = (error)->
       if (confirm("Do you want to overwrite file #{file.name}?"))
         true
       else
