@@ -1,5 +1,5 @@
 $ = require "jquery"
-SparkMD5 = require "./spark-md5"
+SparkMD5 = require "spark-md5"
 
 class FileChecksum
 
@@ -43,7 +43,9 @@ class FileChecksum
 
 
   stop : ->
+    @bytesWritten = @file.size
     @spark.end()
+    @_emitFail("FileChecksum stopped!")
 
   _emitProgress : (e = null) ->
     @_deferred.notifyWith(this, [e, @bytesWritten, @file.size])
