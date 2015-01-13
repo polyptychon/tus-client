@@ -1,6 +1,7 @@
 $ = require "jquery"
 ResumableUpload = require "./ResumableUpload.coffee"
 tus = require "./Tus.coffee"
+Q = require "q"
 
 $ ->
   upload = null
@@ -26,6 +27,12 @@ $ ->
     tus.check(file, options)
       .then((result)->
         return tus.checksum(file, options) if $('#checksum').prop('checked')
+      )
+      .catch((error)->
+        if (confirm("Do you want to overwrite file #{file.name}?"))
+          true
+        else
+          Q.reject(error)
       )
       .then((result)->
         options.clientChecksum = result.md5 if $('#checksum').prop('checked')
