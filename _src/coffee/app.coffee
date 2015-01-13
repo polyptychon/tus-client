@@ -22,6 +22,10 @@ $ ->
       endpoint: 'http://localhost:1080/files/'
       resetBefore: $('#reset_before').prop('checked')
       resetAfter: true
+#      chunkSize: null
+#      minChunkSize: 51200
+#      maxChunkSize: 2097152
+#      path: ""
 
     openDialogIfFileExist = (error)->
       if (confirm("Do you want to overwrite file #{file.name}?"))
