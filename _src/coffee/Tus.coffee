@@ -14,14 +14,14 @@ module.exports = {
     )
     upload.progress((e, bytesUploaded, bytesTotal) ->
       percentage = (bytesUploaded / bytesTotal * 100).toFixed(2)
-      deferred.notify(percentage)
+      deferred.notify({action: upload, percentage: percentage})
     )
     upload.done((url, file, md5) ->
       if (options.clientChecksum)
         if (options.clientChecksum==md5)
           deferred.resolve({url: url, file: file, md5: md5})
         else
-          deferred.reject(new Error("Checksum does not match"))
+          deferred.reject(new Error("Checksum does not match. #{options.clientChecksum} != #{md5}"))
       else
         deferred.resolve({url: url, file: file, md5: md5})
     )
@@ -43,12 +43,15 @@ module.exports = {
   checksum: (file, options) ->
     deferred = Q.defer();
     checksum = new FileChecksum(file, options)
+    checksum.fail( (error) ->
+      deferred.reject(new Error(error))
+    )
     checksum.progress((e, bytesUploaded, bytesTotal) ->
       percentage = (bytesUploaded / bytesTotal * 100).toFixed(2);
-      deferred.notify(percentage)
+      deferred.notify({action: checksum, percentage: percentage})
     )
     checksum.done((file, md5) ->
-      deferred.resolve({file: file, md5: md5});
+      deferred.resolve({file: file, md5: md5})
     )
     checksum._computeChecksum(0) if (file)
     return deferred.promise

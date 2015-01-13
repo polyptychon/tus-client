@@ -28,7 +28,10 @@
       upload.progress(function(e, bytesUploaded, bytesTotal) {
         var percentage;
         percentage = (bytesUploaded / bytesTotal * 100).toFixed(2);
-        return deferred.notify(percentage);
+        return deferred.notify({
+          action: upload,
+          percentage: percentage
+        });
       });
       upload.done(function(url, file, md5) {
         if (options.clientChecksum) {
@@ -39,7 +42,7 @@
               md5: md5
             });
           } else {
-            return deferred.reject(new Error("Checksum does not match"));
+            return deferred.reject(new Error("Checksum does not match. " + options.clientChecksum + " != " + md5));
           }
         } else {
           return deferred.resolve({
@@ -72,10 +75,16 @@
       var checksum, deferred;
       deferred = Q.defer();
       checksum = new FileChecksum(file, options);
+      checksum.fail(function(error) {
+        return deferred.reject(new Error(error));
+      });
       checksum.progress(function(e, bytesUploaded, bytesTotal) {
         var percentage;
         percentage = (bytesUploaded / bytesTotal * 100).toFixed(2);
-        return deferred.notify(percentage);
+        return deferred.notify({
+          action: checksum,
+          percentage: percentage
+        });
       });
       checksum.done(function(file, md5) {
         return deferred.resolve({
