@@ -20,12 +20,12 @@ $ ->
 
     options =
       endpoint: 'http://localhost:1080/files/'
-      resetBefore: $('#reset_before').prop('checked')
-      resetAfter: true
-#      chunkSize: 1
+      resetBefore: $('#reset_before').prop('checked') # if resetBefore is true file always uploads from first byte
+      resetAfter: true # clear localStorage after upload completes successfully
+#      chunkSize: 1 # if chunkSize is not null then file uploads in chunks
 #      minChunkSize: 51200
 #      maxChunkSize: 2097152
-#      path: ""
+#      path: "" # Where we want to put uploaded file on server
 
     openDialogIfFileExist = (error)->
       if (confirm("Do you want to overwrite file #{file.name}?"))
