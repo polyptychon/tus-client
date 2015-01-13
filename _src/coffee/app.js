@@ -20,7 +20,7 @@
       }
     });
     return $('input[type=file]').change(function() {
-      var $input, $parent, displayUploadedFile, doChecksum, file, openDialogIfFileExist, options, resetUI, startUpload, updateProgress;
+      var $input, $parent, displayUploadedFile, doChecksum, file, logErrors, openDialogIfFileExist, options, resetUI, startUpload, updateProgress;
       $input = $(this);
       $parent = $input.parent();
       file = this.files[0];
@@ -60,10 +60,13 @@
         upload = result.action;
         return $('.progress-bar').css('width', "" + result.percentage + "%");
       };
+      logErrors = function(error) {
+        return console.log(error);
+      };
       resetUI = function() {
         return $('.js-stop').addClass('disabled');
       };
-      return tus.check(file, options)["catch"](openDialogIfFileExist).then(doChecksum).then(startUpload).then(displayUploadedFile).progress(updateProgress)["catch"](console.log).fin(resetUI);
+      return tus.check(file, options)["catch"](openDialogIfFileExist).then(doChecksum).then(startUpload).then(displayUploadedFile).progress(updateProgress)["catch"](logErrors).fin(resetUI);
     });
   });
 

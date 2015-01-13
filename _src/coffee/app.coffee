@@ -42,6 +42,8 @@ $ ->
       console.log(result.percentage)
       upload = result.action
       $('.progress-bar').css('width', "#{result.percentage}%")
+    logErrors = (error) ->
+      console.log(error)
     resetUI = () ->
       $('.js-stop').addClass('disabled')
 
@@ -51,6 +53,6 @@ $ ->
       .then(startUpload)
       .then(displayUploadedFile)
       .progress(updateProgress)
-      .catch(console.log)
+      .catch(logErrors)
       .fin(resetUI)
   )
