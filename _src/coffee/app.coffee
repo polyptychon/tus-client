@@ -24,34 +24,33 @@ $ ->
 
     $('.progress').addClass('active')
 
+    openDialogIfFileExist = ()->
+      if (confirm("Do you want to overwrite file #{file.name}?"))
+        true
+      else
+        Q.reject(error)
+    doChecksum = ()->
+      return tus.checksum(file, options) if $('#checksum').prop('checked')
+    startUpload = (result)->
+      options.clientChecksum = result.md5 if $('#checksum').prop('checked')
+      return tus.upload(file, options)
+    displayUploadedFile = (result)->
+      $download = $("<a>Download #{file.name} (#{file.size} bytes #{result.md5})</a><br />").appendTo($parent)
+      $download.attr('href', result.url)
+      $download.addClass('btn').addClass('btn-success')
+    updateProgress = (result)->
+      console.log(result.percentage)
+      upload = result.action
+      $('.progress-bar').css('width', "#{result.percentage}%")
+    resetUI = () ->
+      $('.js-stop').addClass('disabled')
+
     tus.check(file, options)
-      .catch((error)->
-        if (confirm("Do you want to overwrite file #{file.name}?"))
-          true
-        else
-          Q.reject(error)
-      )
-      .then((result)->
-        return tus.checksum(file, options) if $('#checksum').prop('checked')
-      )
-      .then((result)->
-        options.clientChecksum = result.md5 if $('#checksum').prop('checked')
-        return tus.upload(file, options)
-      )
-      .then((result)->
-        $download = $("<a>Download #{file.name} (#{file.size} bytes #{result.md5})</a><br />").appendTo($parent)
-        $download.attr('href', result.url)
-        $download.addClass('btn').addClass('btn-success')
-      )
-      .progress((result)->
-        console.log(result.percentage)
-        upload = result.action
-        $('.progress-bar').css('width', "#{result.percentage}%")
-      )
-      .catch((error)->
-        console.log(error)
-      )
-      .fin(()->
-        $('.js-stop').addClass('disabled')
-      )
+      .catch(openDialogIfFileExist)
+      .then(doChecksum)
+      .then(startUpload)
+      .then(displayUploadedFile)
+      .progress(updateProgress)
+      .catch(console.log)
+      .fin(resetUI)
   )

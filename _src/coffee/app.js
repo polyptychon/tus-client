@@ -20,7 +20,7 @@
       }
     });
     return $('input[type=file]').change(function() {
-      var $input, $parent, file, options;
+      var $input, $parent, displayUploadedFile, doChecksum, file, openDialogIfFileExist, options, resetUI, startUpload, updateProgress;
       $input = $(this);
       $parent = $input.parent();
       file = this.files[0];
@@ -31,35 +31,39 @@
         resetAfter: true
       };
       $('.progress').addClass('active');
-      return tus.check(file, options)["catch"](function(error) {
+      openDialogIfFileExist = function() {
         if (confirm("Do you want to overwrite file " + file.name + "?")) {
           return true;
         } else {
           return Q.reject(error);
         }
-      }).then(function(result) {
+      };
+      doChecksum = function() {
         if ($('#checksum').prop('checked')) {
           return tus.checksum(file, options);
         }
-      }).then(function(result) {
+      };
+      startUpload = function(result) {
         if ($('#checksum').prop('checked')) {
           options.clientChecksum = result.md5;
         }
         return tus.upload(file, options);
-      }).then(function(result) {
+      };
+      displayUploadedFile = function(result) {
         var $download;
         $download = $("<a>Download " + file.name + " (" + file.size + " bytes " + result.md5 + ")</a><br />").appendTo($parent);
         $download.attr('href', result.url);
         return $download.addClass('btn').addClass('btn-success');
-      }).progress(function(result) {
+      };
+      updateProgress = function(result) {
         console.log(result.percentage);
         upload = result.action;
         return $('.progress-bar').css('width', "" + result.percentage + "%");
-      })["catch"](function(error) {
-        return console.log(error);
-      }).fin(function() {
+      };
+      resetUI = function() {
         return $('.js-stop').addClass('disabled');
-      });
+      };
+      return tus.check(file, options)["catch"](openDialogIfFileExist).then(doChecksum).then(startUpload).then(displayUploadedFile).progress(updateProgress)["catch"](console.log).fin(resetUI);
     });
   });
 
