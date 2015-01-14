@@ -14,7 +14,7 @@
     function FileChecksum(file, options) {
       this.file = file;
       this.options = $.extend(FileChecksum.DEFAULTS, options);
-      if (this.options.chunkSize < 2097152) {
+      if (this.options.chunkSize === null || this.options.chunkSize < 2097152) {
         this.options.chunkSize = 2097152;
       }
       this.spark = new SparkMD5();
