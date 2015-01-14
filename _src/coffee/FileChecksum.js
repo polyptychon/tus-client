@@ -8,18 +8,14 @@
 
   FileChecksum = (function() {
     FileChecksum.DEFAULTS = {
-      minChunkSize: 2097152,
       chunkSize: 2097152
     };
 
     function FileChecksum(file, options) {
       this.file = file;
-      if (options.minChunkSize < this.options.minChunkSize) {
-        options.minChunkSize = this.options.minChunkSize;
-      }
       this.options = $.extend(FileChecksum.DEFAULTS, options);
-      if (this.options.chunkSize < this.options.minChunkSize) {
-        this.options.chunkSize = this.options.minChunkSize;
+      if (this.options.chunkSize < 2097152) {
+        this.options.chunkSize = 2097152;
       }
       this.spark = new SparkMD5();
       this.fileReader = new FileReader();

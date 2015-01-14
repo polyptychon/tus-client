@@ -41,7 +41,6 @@ module.exports = {
     return deferred.promise
 
   checksum: (file, options) ->
-    options.chunkSize= 2097152 if (options.chunkSize? < 2097152)
     deferred = Q.defer();
     checksum = new FileChecksum(file, options)
     checksum.fail( (error) ->
