@@ -14,6 +14,9 @@
 
     function FileChecksum(file, options) {
       this.file = file;
+      if (options.minChunkSize < this.options.minChunkSize) {
+        options.minChunkSize = this.options.minChunkSize;
+      }
       this.options = $.extend(FileChecksum.DEFAULTS, options);
       if (this.options.chunkSize < this.options.minChunkSize) {
         this.options.chunkSize = this.options.minChunkSize;

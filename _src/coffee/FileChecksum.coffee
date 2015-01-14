@@ -9,7 +9,7 @@ class FileChecksum
 
   constructor: (file, options) ->
     @file = file
-
+    options.minChunkSize = @options.minChunkSize if (options.minChunkSize < @options.minChunkSize)
     @options = $.extend(FileChecksum.DEFAULTS, options)
     @options.chunkSize = @options.minChunkSize if (@options.chunkSize < @options.minChunkSize)
     @spark = new SparkMD5();
