@@ -38,9 +38,7 @@
       path: ""
     };
     openDialogIfFileExist = function(error) {
-      if (confirm(overwriteMessage)) {
-        return true;
-      } else {
+      if (!(confirm(overwriteMessage))) {
         return Q.reject(error);
       }
     };
