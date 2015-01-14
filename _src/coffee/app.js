@@ -27,6 +27,7 @@
       $('.js-stop').removeClass('disabled');
       $('.progress').addClass('active');
       options = {
+        clientChecksum: null,
         endpoint: 'http://localhost:1080/files/',
         resetBefore: $('#reset_before').prop('checked'),
         resetAfter: true,

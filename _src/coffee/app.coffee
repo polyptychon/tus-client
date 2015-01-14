@@ -19,6 +19,7 @@ $ ->
     $('.progress').addClass('active')
 
     options =
+      clientChecksum : null
       endpoint: 'http://localhost:1080/files/'
       resetBefore: $('#reset_before').prop('checked') # if resetBefore is true file always uploads from first byte
       resetAfter: true # clear localStorage after upload completes successfully
