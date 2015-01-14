@@ -25,7 +25,7 @@
     var $input, displayUploadedFiles, doChecksum, logErrors, openDialogIfFileExist, options, overwriteMessage, resetUI, startUpload, updateProgress;
     $input = $(this);
     files = this.files;
-    overwriteMessage = "Some files are on server. Do you want to overwrite files?";
+    overwriteMessage = "Some files are on server. Do you want to overwrite them?";
     $('.js-stop').removeClass('disabled');
     $('.progress').addClass('active');
     options = {

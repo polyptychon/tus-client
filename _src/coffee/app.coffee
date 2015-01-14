@@ -15,7 +15,7 @@ $('.js-stop').click( (e) ->
 $('input[type=file]').change( ->
   $input  = $(this)
   files   = this.files
-  overwriteMessage = "Some files are on server. Do you want to overwrite files?"
+  overwriteMessage = "Some files are on server. Do you want to overwrite them?"
 
   $('.js-stop').removeClass('disabled')
   $('.progress').addClass('active')
