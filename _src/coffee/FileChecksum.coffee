@@ -4,13 +4,14 @@ SparkMD5 = require "spark-md5"
 class FileChecksum
 
   FileChecksum.DEFAULTS =
+    minChunkSize: 2097152
     chunkSize: 2097152
 
   constructor: (file, options) ->
     @file = file
 
     @options = $.extend(FileChecksum.DEFAULTS, options)
-
+    @options.chunkSize = @options.minChunkSize if (@options.chunkSize < @options.minChunkSize)
     @spark = new SparkMD5();
     @fileReader = new FileReader()
     @fileReader.onload = (e) =>
