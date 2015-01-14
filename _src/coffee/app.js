@@ -22,9 +22,8 @@
   });
 
   $('input[type=file]').change(function() {
-    var $input, $parent, displayUploadedFiles, doChecksum, logErrors, openDialogIfFileExist, options, overwriteMessage, resetUI, startUpload, updateProgress;
+    var $input, displayUploadedFiles, doChecksum, logErrors, openDialogIfFileExist, options, overwriteMessage, resetUI, startUpload, updateProgress;
     $input = $(this);
-    $parent = $input.parent();
     files = this.files;
     overwriteMessage = "Some files are on server. Do you want to overwrite files?";
     $('.js-stop').removeClass('disabled');
@@ -39,7 +38,6 @@
       path: ""
     };
     openDialogIfFileExist = function(error) {
-      console.log(error);
       if (confirm(overwriteMessage)) {
         return true;
       } else {
@@ -59,7 +57,7 @@
       _results = [];
       for (_i = 0, _len = files.length; _i < _len; _i++) {
         file = files[_i];
-        $download = $("<a>Download " + file.name + " (" + file.size + " bytes " + file.md5 + ")</a><br />").appendTo($parent);
+        $download = $("<a>Download " + file.name + " (" + file.size + " bytes " + file.md5 + ")</a><br />").appendTo($(".container"));
         $download.attr('href', result.url);
         _results.push($download.addClass('btn').addClass('btn-success'));
       }
@@ -72,6 +70,10 @@
       return console.log(error);
     };
     resetUI = function() {
+      files = null;
+      $input.wrap('<form>').closest('form').get(0).reset();
+      $input.unwrap();
+      $('.progress').removeClass('active');
       return $('.js-stop').addClass('disabled');
     };
     return tus.checkAll(files, options)["catch"](openDialogIfFileExist).then(doChecksum).then(startUpload).then(displayUploadedFiles).progress(updateProgress)["catch"](logErrors).fin(resetUI);

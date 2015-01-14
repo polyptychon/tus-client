@@ -14,7 +14,6 @@ $('.js-stop').click( (e) ->
 
 $('input[type=file]').change( ->
   $input  = $(this)
-  $parent = $input.parent()
   files   = this.files
   overwriteMessage = "Some files are on server. Do you want to overwrite files?"
 
@@ -31,7 +30,6 @@ $('input[type=file]').change( ->
     path: "" # Where we want to put uploaded file on server
 
   openDialogIfFileExist = (error)->
-    console.log(error)
     if (confirm(overwriteMessage)) then true else Q.reject(error)
   doChecksum = ()->
     return tus.checksumAll(files, options) if $('#checksum').prop('checked')
@@ -39,7 +37,7 @@ $('input[type=file]').change( ->
     return tus.uploadAll(files, options)
   displayUploadedFiles = (result)->
     for file in files
-      $download = $("<a>Download #{file.name} (#{file.size} bytes #{file.md5})</a><br />").appendTo($parent)
+      $download = $("<a>Download #{file.name} (#{file.size} bytes #{file.md5})</a><br />").appendTo($(".container"))
       $download.attr('href', result.url)
       $download.addClass('btn').addClass('btn-success')
   updateProgress = (result)->
@@ -47,6 +45,10 @@ $('input[type=file]').change( ->
   logErrors = (error) ->
     console.log(error)
   resetUI = () ->
+    files = null
+    $input.wrap('<form>').closest('form').get(0).reset();
+    $input.unwrap()
+    $('.progress').removeClass('active')
     $('.js-stop').addClass('disabled')
 
   tus.checkAll(files, options)
