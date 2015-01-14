@@ -21,11 +21,11 @@
       }
     });
     return $('input[type=file]').change(function() {
-      var $input, $parent, displayUploadedFiles, doChecksum, file, logErrors, openDialogIfFileExist, options, resetUI, startUpload, updateProgress;
+      var $input, $parent, displayUploadedFiles, doChecksum, logErrors, openDialogIfFileExist, options, overwriteMessage, resetUI, startUpload, updateProgress;
       $input = $(this);
       $parent = $input.parent();
       files = this.files;
-      file = files[0];
+      overwriteMessage = "Some files are on server. Do you want to overwrite files?";
       $('.js-stop').removeClass('disabled');
       $('.progress').addClass('active');
       options = {
@@ -38,7 +38,7 @@
         path: ""
       };
       openDialogIfFileExist = function(error) {
-        if (confirm("Some files are on server. Do you want to overwrite files?")) {
+        if (confirm(overwriteMessage)) {
           return true;
         } else {
           return Q.reject(error);
@@ -53,7 +53,7 @@
         return tus.uploadAll(files, options);
       };
       displayUploadedFiles = function(result) {
-        var $download, _i, _len, _results;
+        var $download, file, _i, _len, _results;
         _results = [];
         for (_i = 0, _len = files.length; _i < _len; _i++) {
           file = files[_i];

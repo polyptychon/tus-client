@@ -15,7 +15,7 @@ $ ->
     $input  = $(this)
     $parent = $input.parent()
     files   = this.files
-    file    = files[0]
+    overwriteMessage = "Some files are on server. Do you want to overwrite files?"
 
     $('.js-stop').removeClass('disabled')
     $('.progress').addClass('active')
@@ -30,10 +30,7 @@ $ ->
       path: "" # Where we want to put uploaded file on server
 
     openDialogIfFileExist = (error)->
-      if (confirm("Some files are on server. Do you want to overwrite files?"))
-        true
-      else
-        Q.reject(error)
+      if (confirm(overwriteMessage)) then true else Q.reject(error)
     doChecksum = ()->
       return tus.checksumAll(files, options) if $('#checksum').prop('checked')
     startUpload = ()->
