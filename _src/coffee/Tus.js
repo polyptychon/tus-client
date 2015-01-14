@@ -73,6 +73,9 @@
     },
     checksum: function(file, options) {
       var checksum, deferred;
+      if ((options.chunkSize != null) < 2097152) {
+        options.chunkSize = 2097152;
+      }
       deferred = Q.defer();
       checksum = new FileChecksum(file, options);
       checksum.fail(function(error) {
