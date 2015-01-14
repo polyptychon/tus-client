@@ -11,23 +11,24 @@
   Q = require("q");
 
   $(function() {
-    var upload;
+    var files, upload;
     upload = null;
+    files = null;
     $('.js-stop').click(function(e) {
       e.preventDefault();
-      if (upload) {
-        return upload.stop();
+      if (files) {
+        return tus.stopAll(files);
       }
     });
     return $('input[type=file]').change(function() {
-      var $input, $parent, displayUploadedFile, doChecksum, file, logErrors, openDialogIfFileExist, options, resetUI, startUpload, updateProgress;
+      var $input, $parent, displayUploadedFiles, doChecksum, file, logErrors, openDialogIfFileExist, options, resetUI, startUpload, updateProgress;
       $input = $(this);
       $parent = $input.parent();
-      file = this.files[0];
+      files = this.files;
+      file = files[0];
       $('.js-stop').removeClass('disabled');
       $('.progress').addClass('active');
       options = {
-        clientChecksum: null,
         endpoint: 'http://localhost:1080/files/',
         resetBefore: $('#reset_before').prop('checked'),
         resetAfter: true,
@@ -37,7 +38,7 @@
         path: ""
       };
       openDialogIfFileExist = function(error) {
-        if (confirm("Do you want to overwrite file " + file.name + "?")) {
+        if (confirm("Some files are on server. Do you want to overwrite files?")) {
           return true;
         } else {
           return Q.reject(error);
@@ -45,25 +46,25 @@
       };
       doChecksum = function() {
         if ($('#checksum').prop('checked')) {
-          return tus.checksum(file, options);
+          return tus.checksumAll(files, options);
         }
       };
-      startUpload = function(result) {
-        if ($('#checksum').prop('checked')) {
-          options.clientChecksum = result.md5;
-        }
-        return tus.upload(file, options);
+      startUpload = function() {
+        return tus.uploadAll(files, options);
       };
-      displayUploadedFile = function(result) {
-        var $download;
-        $download = $("<a>Download " + file.name + " (" + file.size + " bytes " + result.md5 + ")</a><br />").appendTo($parent);
-        $download.attr('href', result.url);
-        return $download.addClass('btn').addClass('btn-success');
+      displayUploadedFiles = function(result) {
+        var $download, _i, _len, _results;
+        _results = [];
+        for (_i = 0, _len = files.length; _i < _len; _i++) {
+          file = files[_i];
+          $download = $("<a>Download " + file.name + " (" + file.size + " bytes " + file.md5 + ")</a><br />").appendTo($parent);
+          $download.attr('href', result.url);
+          _results.push($download.addClass('btn').addClass('btn-success'));
+        }
+        return _results;
       };
       updateProgress = function(result) {
-        console.log(result.percentage);
-        upload = result.action;
-        return $('.progress-bar').css('width', "" + result.percentage + "%");
+        return $('.progress-bar').css('width', "" + result.value.percentage + "%");
       };
       logErrors = function(error) {
         return console.log(error);
@@ -71,7 +72,7 @@
       resetUI = function() {
         return $('.js-stop').addClass('disabled');
       };
-      return tus.check(file, options)["catch"](openDialogIfFileExist).then(doChecksum).then(startUpload).then(displayUploadedFile).progress(updateProgress)["catch"](logErrors).fin(resetUI);
+      return tus.checkAll(files, options)["catch"](openDialogIfFileExist).then(doChecksum).then(startUpload).then(displayUploadedFiles).progress(updateProgress)["catch"](logErrors).fin(resetUI);
     });
   });
 

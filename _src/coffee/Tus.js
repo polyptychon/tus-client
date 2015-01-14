@@ -19,7 +19,9 @@
       var deferred, upload;
       deferred = Q.defer();
       upload = new PolyResumableUpload(file, options);
+      file.action = upload;
       upload.fail(function(error, status) {
+        file.action = null;
         return deferred.reject(new Error({
           error: error,
           status: status
@@ -34,17 +36,19 @@
         });
       });
       upload.done(function(url, file, md5) {
-        if (options.clientChecksum) {
-          if (options.clientChecksum === md5) {
+        file.action = null;
+        if (file.md5) {
+          if (file.md5 === md5) {
             return deferred.resolve({
               url: url,
               file: file,
               md5: md5
             });
           } else {
-            return deferred.reject(new Error("Checksum does not match. " + options.clientChecksum + " != " + md5));
+            return deferred.reject(new Error("Checksum does not match. " + file.md5 + " != " + md5));
           }
         } else {
+          file.md5 = md5;
           return deferred.resolve({
             url: url,
             file: file,
@@ -67,7 +71,10 @@
       check.fail(function(error, status) {
         return deferred.resolve(file);
       }).done(function(url, file) {
-        return deferred.reject(new Error("File already exist"));
+        return deferred.reject(new Error({
+          message: "File already exist",
+          file: file
+        }));
       });
       return deferred.promise;
     },
@@ -75,7 +82,9 @@
       var checksum, deferred;
       deferred = Q.defer();
       checksum = new FileChecksum(file, options);
+      file.action = checksum;
       checksum.fail(function(error) {
+        file.action = null;
         return deferred.reject(new Error(error));
       });
       checksum.progress(function(e, bytesUploaded, bytesTotal) {
@@ -87,6 +96,8 @@
         });
       });
       checksum.done(function(file, md5) {
+        file.action = null;
+        file.md5 = md5;
         return deferred.resolve({
           file: file,
           md5: md5
@@ -96,6 +107,47 @@
         checksum._computeChecksum(0);
       }
       return deferred.promise;
+    },
+    stop: function(file) {
+      if (file.action) {
+        return file.action.stop();
+      }
+    },
+    checkAll: function(files, options) {
+      var file, promises, _i, _len;
+      promises = [];
+      for (_i = 0, _len = files.length; _i < _len; _i++) {
+        file = files[_i];
+        promises.push(this.check(file, options));
+      }
+      return Q.all(promises);
+    },
+    checksumAll: function(files, options) {
+      var file, promises, _i, _len;
+      promises = [];
+      for (_i = 0, _len = files.length; _i < _len; _i++) {
+        file = files[_i];
+        promises.push(this.checksum(file, options));
+      }
+      return Q.all(promises);
+    },
+    uploadAll: function(files, options) {
+      var file, promises, _i, _len;
+      promises = [];
+      for (_i = 0, _len = files.length; _i < _len; _i++) {
+        file = files[_i];
+        promises.push(this.upload(file, options));
+      }
+      return Q.all(promises);
+    },
+    stopAll: function(files) {
+      var file, _i, _len, _results;
+      _results = [];
+      for (_i = 0, _len = files.length; _i < _len; _i++) {
+        file = files[_i];
+        _results.push(this.stop(file));
+      }
+      return _results;
     },
     UploadSupport: ResumableUpload.SUPPORT
   };
