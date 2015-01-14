@@ -40,7 +40,7 @@ module.exports = {
       deferred.resolve(file);
     )
     .done((url, file) ->
-      deferred.reject(new Error({message:"File already exist", file:file}));
+      deferred.reject({message:"File already exist", file:file});
     )
     return deferred.promise
 

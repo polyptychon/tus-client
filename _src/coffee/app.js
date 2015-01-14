@@ -39,6 +39,7 @@
       path: ""
     };
     openDialogIfFileExist = function(error) {
+      console.log(error);
       if (confirm(overwriteMessage)) {
         return true;
       } else {

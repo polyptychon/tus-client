@@ -71,10 +71,10 @@
       check.fail(function(error, status) {
         return deferred.resolve(file);
       }).done(function(url, file) {
-        return deferred.reject(new Error({
+        return deferred.reject({
           message: "File already exist",
           file: file
-        }));
+        });
       });
       return deferred.promise;
     },
