@@ -10,9 +10,9 @@
     Q = require("q");
   }
 
-  ResumableUpload = require("./ResumableUpload.coffee");
+  ResumableUpload = require("./ResumableUpload");
 
-  tus = require("./Tus.coffee");
+  tus = require("./Tus");
 
   upload = null;
 
