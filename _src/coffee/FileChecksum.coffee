@@ -1,5 +1,7 @@
-$ = require "jquery"
-SparkMD5 = require "spark-md5"
+$ = require "jquery" unless jQuery?
+$ = jQuery unless $?
+
+SparkMD5 = require "spark-md5" unless SparkMD5?
 
 class FileChecksum
 
@@ -9,7 +11,7 @@ class FileChecksum
   constructor: (file, options) ->
     @file = file
     @options = $.extend(FileChecksum.DEFAULTS, options)
-    @options.chunkSize = 2097152 if (@options.chunkSize < 2097152)
+    @options.chunkSize = 2097152 if (@options.chunkSize==null || @options.chunkSize < 2097152)
     @spark = new SparkMD5();
     @fileReader = new FileReader()
     @fileReader.onload = (e) =>

@@ -2,7 +2,13 @@
 (function() {
   var $, ResumableUpload;
 
-  $ = require("jquery");
+  if (typeof jQuery === "undefined" || jQuery === null) {
+    $ = require("jquery");
+  }
+
+  if ($ == null) {
+    $ = jQuery;
+  }
 
   ResumableUpload = (function() {
     ResumableUpload.SUPPORT = function() {

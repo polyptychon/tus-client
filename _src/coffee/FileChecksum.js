@@ -2,9 +2,17 @@
 (function() {
   var $, FileChecksum, SparkMD5;
 
-  $ = require("jquery");
+  if (typeof jQuery === "undefined" || jQuery === null) {
+    $ = require("jquery");
+  }
 
-  SparkMD5 = require("spark-md5");
+  if ($ == null) {
+    $ = jQuery;
+  }
+
+  if (typeof SparkMD5 === "undefined" || SparkMD5 === null) {
+    SparkMD5 = require("spark-md5");
+  }
 
   FileChecksum = (function() {
     FileChecksum.DEFAULTS = {
@@ -14,7 +22,7 @@
     function FileChecksum(file, options) {
       this.file = file;
       this.options = $.extend(FileChecksum.DEFAULTS, options);
-      if (this.options.chunkSize < 2097152) {
+      if (this.options.chunkSize === null || this.options.chunkSize < 2097152) {
         this.options.chunkSize = 2097152;
       }
       this.spark = new SparkMD5();

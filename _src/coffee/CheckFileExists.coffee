@@ -1,4 +1,5 @@
-$ = require "jquery"
+$ = require "jquery" unless jQuery?
+$ = jQuery unless $?
 
 class CheckFileExists
 
@@ -8,7 +9,6 @@ class CheckFileExists
 
   constructor: (file, options) ->
     @file = file
-
     @options = $.extend(CheckFileExists.DEFAULTS, options)
 
     # The url of the uploaded file, assigned by the tus upload endpoint

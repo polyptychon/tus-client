@@ -14,7 +14,7 @@ html
         |  website.
         | This demo is just here to aid developers.
       br
-      input(type='file')
+      input(type='file' multiple)
       br
       label(for='reset_before')
         input#reset_before(type='checkbox', name='reset_before')
@@ -37,5 +37,8 @@ html
       h3 Uploads
       p
         | Succesful uploads will be listed here. Try one!
-
+  //script(src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js")
+  //script(src="//cdnjs.cloudflare.com/ajax/libs/q.js/1.1.2/q.js")
+  //script(src="../../lib/tus-client.min.js")
+  script(src="assets/js/vendor.js")
   script(src="assets/js/app.js")
