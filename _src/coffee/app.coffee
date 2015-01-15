@@ -1,12 +1,11 @@
-#$ = require "jquery" unless jQuery?
-#Q = require "q" unless Q?
-#ResumableUpload = require "./ResumableUpload"
-#tus = require "./Tus"
+$ = require "jquery" unless jQuery?
+Q = require "q" unless Q?
+ResumableUpload = require "./ResumableUpload"
+tus =  require "./Tus"
 
 $ = jQuery unless $?
 upload = null
 files = null
-tus = null
 
 $('.js-stop').click( (e) ->
   e.preventDefault()
@@ -14,7 +13,6 @@ $('.js-stop').click( (e) ->
 )
 
 $('input[type=file]').change( ->
-  tus = gr.polyptychon.tus
   $input  = $(this)
   files   = this.files
   overwriteMessage = "Some files are on server. Do you want to overwrite them?"
