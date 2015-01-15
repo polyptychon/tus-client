@@ -1,4 +1,6 @@
 $ = require "jquery" unless jQuery?
+$ = jQuery unless $?
+
 SparkMD5 = require "spark-md5" unless SparkMD5?
 
 class FileChecksum

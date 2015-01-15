@@ -8,6 +8,10 @@
     $ = require("jquery");
   }
 
+  if ($ == null) {
+    $ = jQuery;
+  }
+
   ResumableUpload = require("./ResumableUpload");
 
   PolyResumableUpload = (function(_super) {

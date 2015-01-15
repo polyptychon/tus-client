@@ -37,7 +37,7 @@ var DEVELOPMENT = 'development',
   useServer = false,
   TEST = "test",
   watching = false,
-  not_in_dependencies_libs = [];
+  not_in_dependencies_libs = ['jquery', 'q'];
 
 var env = process.env.NODE_ENV || DEVELOPMENT;
 if (env!==DEVELOPMENT) env = PRODUCTION;
@@ -45,7 +45,7 @@ if (env!==DEVELOPMENT) env = PRODUCTION;
 var jadeFiles = argv.jade || '*';
 
 var packageJson = require('./package.json');
-var dependencies = Object.keys(packageJson && packageJson.dependencies || []);
+var dependencies = [];//Object.keys(packageJson && packageJson.dependencies || []);
 
 _.forEach(not_in_dependencies_libs, function(d) {
   dependencies.push(d);
@@ -80,14 +80,16 @@ gulp.task('jade', function() {
     });
 });
 
-function myCoffee(dest, name) {
+function myCoffee(dest, name, src) {
   dest = dest || getOutputDir()+ASSETS+'/js';
   name = name || 'app.js';
+  src = src || './'+SRC+'/coffee/app.coffee';
 
   var bundler = browserify({debug: env === DEVELOPMENT, extensions: ['.coffee']})
-    .add('./'+SRC+'/coffee/app.coffee')
-    .transform('coffeeify')
-    .external(dependencies);
+    .add(src)
+    .external(dependencies)
+    .transform('coffeeify');
+
 
   return bundler.bundle()
     .on('error', function(err) {
@@ -119,7 +121,7 @@ gulp.task('libjs', function() {
     .pipe(plumber({
       errorHandler: handleError
     }))
-    .pipe(myCoffee('lib', 'tus-client.min.js'));
+    .pipe(myCoffee('lib', 'tus-client.min.js', './'+SRC+'/coffee/Tus.coffee'));
 
   gulp.src(dependencies)
   return browserify()

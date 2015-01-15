@@ -6,8 +6,16 @@
     $ = require("jquery");
   }
 
-  if (typeof Q === "undefined" || Q === null) {
+  if ($ == null) {
+    $ = jQuery;
+  }
+
+  if (global.Q == null) {
     Q = require("q");
+  }
+
+  if (global.Q != null) {
+    Q = global.Q;
   }
 
   ResumableUpload = require("./ResumableUpload");

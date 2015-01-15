@@ -6,6 +6,10 @@
     $ = require("jquery");
   }
 
+  if ($ == null) {
+    $ = jQuery;
+  }
+
   ResumableUpload = (function() {
     ResumableUpload.SUPPORT = function() {
       return (typeof File !== 'undefined') && (typeof Blob !== 'undefined') && (typeof FileList !== 'undefined') && (!!Blob.prototype.webkitSlice || !!Blob.prototype.mozSlice || !!Blob.prototype.slice || false);

@@ -1,5 +1,7 @@
 $ = require "jquery" unless jQuery?
-Q = require "q" unless Q?
+$ = jQuery unless $?
+Q = require "q" unless global.Q?
+Q = global.Q if global.Q?
 ResumableUpload = require "./ResumableUpload"
 PolyResumableUpload = require "./PolyResumableUpload"
 CheckFileExists = require "./CheckFileExists"

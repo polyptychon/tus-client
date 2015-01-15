@@ -6,6 +6,10 @@
     $ = require("jquery");
   }
 
+  if ($ == null) {
+    $ = jQuery;
+  }
+
   if (typeof SparkMD5 === "undefined" || SparkMD5 === null) {
     SparkMD5 = require("spark-md5");
   }

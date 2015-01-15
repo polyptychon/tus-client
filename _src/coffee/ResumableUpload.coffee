@@ -1,4 +1,5 @@
 $ = require "jquery" unless jQuery?
+$ = jQuery unless $?
 
 class ResumableUpload
 
