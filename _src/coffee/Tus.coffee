@@ -1,11 +1,14 @@
-$ = require "jquery"
-Q = require "q"
+$ = require "jquery" unless jQuery?
+Q = require "q" unless Q?
 ResumableUpload = require "./ResumableUpload"
 PolyResumableUpload = require "./PolyResumableUpload"
 CheckFileExists = require "./CheckFileExists"
 FileChecksum = require "./FileChecksum"
 
-module.exports = {
+global.gr = global.gr || {}
+global.gr.polyptychon = global.gr.polyptychon || {}
+
+global.gr.polyptychon.tus = {
   upload: (file, options) ->
     deferred = Q.defer()
     upload = new PolyResumableUpload(file, options)
@@ -87,3 +90,5 @@ module.exports = {
 
   UploadSupport: ResumableUpload.SUPPORT
 }
+
+module.exports = global.gr.polyptychon.tus;

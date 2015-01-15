@@ -2,9 +2,13 @@
 (function() {
   var $, CheckFileExists, FileChecksum, PolyResumableUpload, Q, ResumableUpload;
 
-  $ = require("jquery");
+  if (typeof jQuery === "undefined" || jQuery === null) {
+    $ = require("jquery");
+  }
 
-  Q = require("q");
+  if (typeof Q === "undefined" || Q === null) {
+    Q = require("q");
+  }
 
   ResumableUpload = require("./ResumableUpload");
 
@@ -14,7 +18,11 @@
 
   FileChecksum = require("./FileChecksum");
 
-  module.exports = {
+  global.gr = global.gr || {};
+
+  global.gr.polyptychon = global.gr.polyptychon || {};
+
+  global.gr.polyptychon.tus = {
     upload: function(file, options) {
       var deferred, upload;
       deferred = Q.defer();
@@ -151,6 +159,8 @@
     },
     UploadSupport: ResumableUpload.SUPPORT
   };
+
+  module.exports = global.gr.polyptychon.tus;
 
 }).call(this);
 

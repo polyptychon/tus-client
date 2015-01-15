@@ -2,13 +2,17 @@
 (function() {
   var $, Q, ResumableUpload, files, tus, upload;
 
-  $ = require("jquery");
+  if (typeof jQuery === "undefined" || jQuery === null) {
+    $ = require("jquery");
+  }
+
+  if (typeof Q === "undefined" || Q === null) {
+    Q = require("q");
+  }
 
   ResumableUpload = require("./ResumableUpload.coffee");
 
   tus = require("./Tus.coffee");
-
-  Q = require("q");
 
   upload = null;
 

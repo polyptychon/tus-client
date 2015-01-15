@@ -2,9 +2,13 @@
 (function() {
   var $, FileChecksum, SparkMD5;
 
-  $ = require("jquery");
+  if (typeof jQuery === "undefined" || jQuery === null) {
+    $ = require("jquery");
+  }
 
-  SparkMD5 = require("spark-md5");
+  if (typeof SparkMD5 === "undefined" || SparkMD5 === null) {
+    SparkMD5 = require("spark-md5");
+  }
 
   FileChecksum = (function() {
     FileChecksum.DEFAULTS = {

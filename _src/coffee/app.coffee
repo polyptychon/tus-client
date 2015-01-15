@@ -1,8 +1,7 @@
-$ = require "jquery"
+$ = require "jquery" unless jQuery?
+Q = require "q" unless Q?
 ResumableUpload = require "./ResumableUpload.coffee"
 tus = require "./Tus.coffee"
-Q = require "q"
-
 
 upload = null
 files = null

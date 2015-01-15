@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "TusVendors.js",
+  "sourceRoot": "",
+  "sources": [
+    "TusVendors.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA,EAAA,MAAM,CAAC,CAAP,GAAW,MAAM,CAAC,MAAP,GAAgB,OAAA,CAAQ,QAAR,CAA3B,CAAA;;AAAA,EACA,MAAM,CAAC,CAAP,GAAW,OAAA,CAAQ,GAAR,CADX,CAAA;;AAAA,EAEA,MAAM,CAAC,QAAP,GAAkB,OAAA,CAAQ,WAAR,CAFlB,CAAA;AAAA"
+}

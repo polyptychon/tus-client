@@ -20,6 +20,9 @@ var DEVELOPMENT = 'development',
 var env = process.env.NODE_ENV || DEVELOPMENT;
 if (env!==DEVELOPMENT) env = PRODUCTION;
 
+var packageJson = require('./package.json');
+var dependencies = Object.keys(packageJson && packageJson.dependencies || []);
+
 function getOutputDir() {
   return BUILD+env;
 }
@@ -53,6 +56,28 @@ gulp.task('coffee', function() {
     .pipe(gulpif(env === PRODUCTION, uglify()))
     .pipe(rename(ASSETS+'/js/app.js'))
     .pipe(gulp.dest(getOutputDir()))
+});
+gulp.task('lib', function() {
+  env = PRODUCTION;
+  gulp.src(SRC+'/coffee/Tus.coffee', { read: false })
+    .pipe(browserify({
+      debug: false,
+      external: dependencies,
+      transform: ['coffeeify'],
+      extensions: ['.coffee']
+    }))
+    .pipe(gulpif(env === PRODUCTION, uglify()))
+    .pipe(rename('tus-client.js'))
+    .pipe(gulp.dest("lib"));
+  gulp.src(SRC+'/coffee/TusVendors.coffee', { read: false })
+    .pipe(browserify({
+      debug: false,
+      transform: ['coffeeify'],
+      extensions: ['.coffee']
+    }))
+    .pipe(gulpif(env === PRODUCTION, uglify()))
+    .pipe(rename('tus-client-vendor.js'))
+    .pipe(gulp.dest("lib"));
 });
 
 gulp.task('fonts', function() {
