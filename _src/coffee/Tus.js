@@ -61,7 +61,12 @@
             return deferred.reject(new Error("Checksum does not match. " + file.md5 + " != " + md5));
           }
         } else {
-          file.md5 = md5;
+          if (md5) {
+            file.md5 = md5;
+          }
+          if (url) {
+            file.url = url;
+          }
           return deferred.resolve({
             url: url,
             file: file,

@@ -63,7 +63,7 @@
       for (_i = 0, _len = files.length; _i < _len; _i++) {
         file = files[_i];
         $download = $("<a>Download " + file.name + " (" + file.size + " bytes " + file.md5 + ")</a><br />").appendTo($(".container"));
-        $download.attr('href', result.url);
+        $download.attr('href', file.url);
         _results.push($download.addClass('btn').addClass('btn-success'));
       }
       return _results;

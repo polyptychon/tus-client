@@ -38,7 +38,7 @@ $('input[type=file]').change( ->
   displayUploadedFiles = (result)->
     for file in files
       $download = $("<a>Download #{file.name} (#{file.size} bytes #{file.md5})</a><br />").appendTo($(".container"))
-      $download.attr('href', result.url)
+      $download.attr('href', file.url)
       $download.addClass('btn').addClass('btn-success')
   updateProgress = (result)->
     $('.progress-bar').css('width', "#{result.value}%")
