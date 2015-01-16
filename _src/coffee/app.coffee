@@ -46,7 +46,7 @@ $('input[type=file]').change( ->
     console.log(error)
   resetUI = () ->
     files = null
-    $input.wrap('<form>').closest('form').get(0).reset();
+    $input.wrap('<form>').closest('form').get(0).reset()
     $input.unwrap()
     $('.progress').removeClass('active')
     $('.js-stop').addClass('disabled')
