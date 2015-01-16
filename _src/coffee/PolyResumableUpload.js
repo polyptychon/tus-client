@@ -51,7 +51,11 @@
     };
 
     PolyResumableUpload.prototype._emitDone = function() {
-      return this._moveFile();
+      if (this.options.moveFileAfterUpload) {
+        return this._moveFile();
+      } else {
+        return this._deferred.resolveWith(this, [this.fileUrl, this.file, null]);
+      }
     };
 
     PolyResumableUpload.prototype._moveDone = function(md5) {
@@ -60,10 +64,6 @@
 
     PolyResumableUpload.prototype._moveFile = function() {
       var headers, options;
-      if (!this.options.moveFileAfterUpload) {
-        this._deferred.resolveWith(this, [this.fileUrl, this.file, null]);
-        return;
-      }
       headers = $.extend({
         'Final-Length': this.file.size,
         'file-path': "" + this.options.path + "/" + this.file.name

@@ -36,15 +36,15 @@ class PolyResumableUpload extends ResumableUpload
     super(range_from)
 
   _emitDone : ->
-    @_moveFile()
+    if (@options.moveFileAfterUpload)
+      @_moveFile()
+    else
+      @_deferred.resolveWith(this, [@fileUrl, @file, null])
 
   _moveDone : (md5)->
     @_deferred.resolveWith(this, [@fileUrl, @file, md5])
 
   _moveFile : ->
-    if (!@options.moveFileAfterUpload)
-      @_deferred.resolveWith(this, [@fileUrl, @file, null])
-      return
     headers = $.extend({
       'Final-Length': @file.size
       'file-path': "#{@options.path}/#{@file.name}"
