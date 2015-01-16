@@ -68,8 +68,8 @@
       }
       return _results;
     };
-    updateProgress = function(percentage) {
-      return $('.progress-bar').css('width', "" + percentage + "%");
+    updateProgress = function(result) {
+      return $('.progress-bar').css('width', "" + result.value + "%");
     };
     logErrors = function(error) {
       return console.log(error);

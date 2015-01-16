@@ -40,8 +40,8 @@ $('input[type=file]').change( ->
       $download = $("<a>Download #{file.name} (#{file.size} bytes #{file.md5})</a><br />").appendTo($(".container"))
       $download.attr('href', result.url)
       $download.addClass('btn').addClass('btn-success')
-  updateProgress = (percentage)->
-    $('.progress-bar').css('width', "#{percentage}%")
+  updateProgress = (result)->
+    $('.progress-bar').css('width', "#{result.value}%")
   logErrors = (error) ->
     console.log(error)
   resetUI = () ->
