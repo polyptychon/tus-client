@@ -35,9 +35,9 @@
       var deferred, upload;
       deferred = Q.defer();
       upload = new PolyResumableUpload(file, options);
-      file.action = upload;
+      file.stoppableAction = upload;
       upload.fail(function(error, status) {
-        file.action = null;
+        file.stoppableAction = null;
         return deferred.reject(new Error({
           error: error,
           status: status
@@ -49,7 +49,7 @@
         return deferred.notify(percentage);
       });
       upload.done(function(url, file, md5) {
-        file.action = null;
+        file.stoppableAction = null;
         if (file.md5) {
           if (file.md5 === md5) {
             return deferred.resolve({
@@ -78,7 +78,7 @@
       var check, deferred;
       deferred = Q.defer();
       check = new CheckFileExists(file, options);
-      file.action = check;
+      file.stoppableAction = check;
       if (file) {
         check._checkFileExists();
       }
@@ -96,9 +96,9 @@
       var checksum, deferred;
       deferred = Q.defer();
       checksum = new FileChecksum(file, options);
-      file.action = checksum;
+      file.stoppableAction = checksum;
       checksum.fail(function(error) {
-        file.action = null;
+        file.stoppableAction = null;
         return deferred.reject(new Error(error));
       });
       checksum.progress(function(e, bytesUploaded, bytesTotal) {
@@ -107,7 +107,7 @@
         return deferred.notify(percentage);
       });
       checksum.done(function(file, md5) {
-        file.action = null;
+        file.stoppableAction = null;
         file.md5 = md5;
         return deferred.resolve({
           file: file,
@@ -120,8 +120,8 @@
       return deferred.promise;
     },
     stop: function(file) {
-      if (file.action) {
-        return file.action.stop();
+      if (file.stoppableAction) {
+        return file.stoppableAction.stop();
       }
     },
     checkAll: function(files, options) {
