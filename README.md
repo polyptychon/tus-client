@@ -73,6 +73,7 @@ Add a `<script>` to your `index.html`:
 | minChunkSize  | Integer  | 51200         | Minimum chunk size |
 | maxChunkSize  | Integer  | 2097152       | Maximum chunk size |
 | path          | String   | ''            | The folder on server we want uploaded file to move |
+| moveFileAfterUpload | Boolean   | true   | if we want to rename and move uploaded file. For compatibility with other tus server this option should be false |
 
 ### Using library
 ```javascript
@@ -115,6 +116,37 @@ function doChecksum() {
 function startUpload() {
   return tus.uploadAll(files, options);
 }
+function displayUploadedFiles(result) {
+  for (i = 0, l = files.length; i < l; i++) {
+    console.log(files[i].name);
+  }
+}
+function updateProgress(percentage) {
+  console.log(percentage);
+}
+function logErrors(error) {
+  console.log(error);
+}
+```
+### Example (Compatible with all tus servers)
+```javascript
+var tus = gr.polyptychon.tus;
+var options = {
+  endpoint: 'http://localhost:1080/files/',
+  resetBefore: false,
+  resetAfter: true,
+  chunkSize: null,
+  minChunkSize: 51200,
+  maxChunkSize: 2097152,
+  path: "",
+  moveFileAfterUpload: false
+};
+
+tus.uploadAll(files, options)
+  .then(displayUploadedFiles)
+  .progress(updateProgress)
+  .catch(logErrors);
+
 function displayUploadedFiles(result) {
   for (i = 0, l = files.length; i < l; i++) {
     console.log(files[i].name);

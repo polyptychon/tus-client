@@ -18,6 +18,7 @@
     __extends(PolyResumableUpload, _super);
 
     PolyResumableUpload.DEFAULTS = {
+      moveFileAfterUpload: true,
       chunkSize: null,
       minChunkSize: 51200,
       maxChunkSize: 2097152,
@@ -59,6 +60,9 @@
 
     PolyResumableUpload.prototype._moveFile = function() {
       var headers, options;
+      if (!this.options.moveFileAfterUpload) {
+        this._deferred.resolveWith(this, [this.fileUrl, this.file, null]);
+      }
       headers = $.extend({
         'Final-Length': this.file.size,
         'file-path': "" + this.options.path + "/" + this.file.name

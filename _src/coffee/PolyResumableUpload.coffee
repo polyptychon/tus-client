@@ -5,6 +5,7 @@ ResumableUpload = require "./ResumableUpload"
 class PolyResumableUpload extends ResumableUpload
 
   PolyResumableUpload.DEFAULTS =
+    moveFileAfterUpload: true
     chunkSize: null
     minChunkSize: 51200
     maxChunkSize: 2097152
@@ -41,6 +42,7 @@ class PolyResumableUpload extends ResumableUpload
     @_deferred.resolveWith(this, [@fileUrl, @file, md5])
 
   _moveFile : ->
+    @_deferred.resolveWith(this, [@fileUrl, @file, null]) unless (@options.moveFileAfterUpload)
     headers = $.extend({
       'Final-Length': @file.size
       'file-path': "#{@options.path}/#{@file.name}"
