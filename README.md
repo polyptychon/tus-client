@@ -51,14 +51,14 @@ Add a `<script>` to your `index.html`:
 
 | Name          | Type     | parameters         | Returns      | Description |
 | :-----------  | :---:    | :------------      | :----------  | :---------- |
-| check         | method   | file, options      | A+ promise   |             |
-| checksum      | method   | file, options      | A+ promise   |             |
-| upload        | method   | file, options      | A+ promise   |             |
-| stop          | method   | file               | A+ promise   |             |
-| checkAll      | method   | fileList, options  | A+ promise   |             |
-| checksumAll   | method   | fileList, options  | A+ promise   |             |
-| uploadAll     | method   | fileList, options  | A+ promise   |             |
-| stopAll       | method   | fileList           | A+ promise   |             |
+| check         | method   | file, options      | A+ promise   | Checks if file already exists on server |
+| checksum      | method   | file, options      | A+ promise   | Produce MD5 checksum on client |
+| upload        | method   | file, options      | A+ promise   | Starts file upload |
+| stop          | method   | file               | A+ promise   | Stops all operations |
+| checkAll      | method   | fileList, options  | A+ promise   | Checks if files already exists on server |
+| checksumAll   | method   | fileList, options  | A+ promise   | Produce MD5 checksum on client for all files |
+| uploadAll     | method   | fileList, options  | A+ promise   | Starts parallel file upload for all files |
+| stopAll       | method   | fileList           | A+ promise   | Stops all operations |
 | UploadSupport | property | -                  | Boolean      | Checks if browser supports File and Blob api |
 
 ### options quick guide
