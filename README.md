@@ -59,16 +59,16 @@ Add a `<script>` to your `index.html`:
 | checksumAll   | method   | fileList, options  | A+ promise   |             |
 | uploadAll     | method   | fileList, options  | A+ promise   |             |
 | stopAll       | method   | fileList           | A+ promise   |             |
-| UploadSupport | property | -                  | Boolean      | Check if browser supports file and Blob api |
+| UploadSupport | property | -                  | Boolean      | Checks if browser supports File and Blob api |
 
 ### options quick guide
 
 | Name          | Type     | Default value | Description |
 | :-----------  | :---:    | :------------ | :---------- |
 | endpoint      | String   | undefined     | Server URL  |
-| resetBefore   | Boolean  | false         | If resetBefore is true file always uploads from first byte |
+| resetBefore   | Boolean  | false         | If resetBefore is true file always uploads from first byte else if previous upload attempt was made, resumes from last uploaded byte |
 | resetAfter    | Boolean  | false         | Clear localStorage after upload completes successfully |
-| chunkSize     | Integer  | null          | if chunkSize is not null then file uploads in chunks |
+| chunkSize     | Integer  | null          | if chunkSize is not null then file uploads in chunks else server is responsible for resuming file from last byte uploaded if uploaded operation was interrupted |
 | minChunkSize  | Integer  | 51200         | Minimum chunk size |
 | maxChunkSize  | Integer  | 2097152       | Maximum chunk size |
 | path          | String   | ''            | The folder on server we want uploaded file to move |
