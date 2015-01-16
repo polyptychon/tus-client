@@ -78,6 +78,15 @@ Add a `<script>` to your `index.html`:
 ```javascript
 
 var tus = gr.polyptychon.tus;
+var options = {
+  endpoint: 'http://localhost:1080/files/',
+  resetBefore: $('#reset_before').prop('checked'),
+  resetAfter: true,
+  chunkSize: 1,
+  minChunkSize: 51200,
+  maxChunkSize: 2097152,
+  path: ""
+};
 
 tus.checkAll(files, options)
   .catch(openDialogIfFileExist)
@@ -115,6 +124,15 @@ function logErrors(error) {
 ```javascript
 var Q = require("q");
 var tus = require("tus-client");
+var options = {
+  endpoint: 'http://localhost:1080/files/',
+  resetBefore: $('#reset_before').prop('checked'),
+  resetAfter: true,
+  chunkSize: 1,
+  minChunkSize: 51200,
+  maxChunkSize: 2097152,
+  path: ""
+};
 
 tus.checkAll(files, options)
   .catch(openDialogIfFileExist)
