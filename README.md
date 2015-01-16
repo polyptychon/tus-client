@@ -73,10 +73,17 @@ Add a `<script>` to your `index.html`:
 | maxChunkSize  | Integer  | 2097152       | Maximum chunk size |
 | path          | String   | ''            | The folder on server we want uploaded file to move |
 
-### Example
-
+### Using library
 ```javascript
-
+var tus = gr.polyptychon.tus;
+```
+### Using library with browserify
+```javascript
+var Q = require("q");
+var tus = require("tus-client");
+```
+### Example
+```javascript
 var tus = gr.polyptychon.tus;
 var options = {
   endpoint: 'http://localhost:1080/files/',
@@ -96,53 +103,7 @@ tus.checkAll(files, options)
   .progress(updateProgress)
   .catch(logErrors);
 
-function openDialogIfFileExist() {
-  if (!(confirm("Some files are on server. Do you want to overwrite them?"))) {
-    return Q.reject(error);
-  }
-}
-function doChecksum() {
-  return tus.checksumAll(files, options);
-}
-function startUpload() {
-  return tus.uploadAll(files, options);
-}
-function displayUploadedFiles(result) {
-  for (i = 0, l = files.length; i < l; i++) {
-    console.log(files[i].name);
-  }
-}
-function updateProgress(percentage) {
-  console.log(percentage);
-}
-function logErrors(error) {
-  console.log(error);
-}
-```
-### Example using browserify
-
-```javascript
-var Q = require("q");
-var tus = require("tus-client");
-var options = {
-  endpoint: 'http://localhost:1080/files/',
-  resetBefore: false,
-  resetAfter: true,
-  chunkSize: 1,
-  minChunkSize: 51200,
-  maxChunkSize: 2097152,
-  path: ""
-};
-
-tus.checkAll(files, options)
-  .catch(openDialogIfFileExist)
-  .then(doChecksum)
-  .then(startUpload)
-  .then(displayUploadedFiles)
-  .progress(updateProgress)
-  .catch(logErrors);
-
-function openDialogIfFileExist() {
+function openDialogIfFileExist(error) {
   if (!(confirm("Some files are on server. Do you want to overwrite them?"))) {
     return Q.reject(error);
   }
