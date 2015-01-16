@@ -60,6 +60,13 @@ $('input[type=file]').change( ->
     .catch(logErrors)
     .fin(resetUI)
 
+#  options =
+#    endpoint: 'http://localhost:1080/files/'
+#    resetBefore: $('#reset_before').prop('checked') # if resetBefore is true file always uploads from first byte
+#    resetAfter: true # clear localStorage after upload completes successfully
+#    chunkSize: null # if chunkSize is not null then file uploads in chunks
+#    moveFileAfterUpload: false
+#
 #  tus.uploadAll(files, options)
 #    .then(displayUploadedFiles)
 #    .progress(updateProgress)
