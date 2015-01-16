@@ -78,6 +78,7 @@
       var check, deferred;
       deferred = Q.defer();
       check = new CheckFileExists(file, options);
+      file.action = check;
       if (file) {
         check._checkFileExists();
       }

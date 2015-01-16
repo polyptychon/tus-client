@@ -40,6 +40,7 @@ global.gr.polyptychon.tus = {
   check: (file, options) ->
     deferred = Q.defer();
     check = new CheckFileExists(file, options)
+    file.action = check
     check._checkFileExists() if (file)
     check.fail((error, status) ->
       deferred.resolve(file);
