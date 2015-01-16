@@ -59,7 +59,7 @@ Add a `<script>` to your `index.html`:
 | checksumAll   | method   | fileList, options  | A+ promise   |             |
 | uploadAll     | method   | fileList, options  | A+ promise   |             |
 | stopAll       | method   | fileList           | A+ promise   |             |
-| UploadSupport | property | -                  | Boolean      |             |
+| UploadSupport | property | -                  | Boolean      | Check if browser supports file and Blob api |
 
 ### options quick guide
 
