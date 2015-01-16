@@ -48,7 +48,7 @@ Add a `<script>` to your `index.html`:
 
 ## Documentation
 
-### api quick guide
+### API quick guide
 
 | Name          | Type     | parameters         | Returns      | Description |
 | :-----------  | :---:    | :------------      | :----------  | :---------- |
