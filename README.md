@@ -135,8 +135,8 @@ var options = {
   endpoint: 'http://localhost:1080/files/',
   resetBefore: false,
   resetAfter: true,
-  chunkSize: null,
-  moveFileAfterUpload: false
+  chunkSize: null, // does not have to be null for compatibility
+  moveFileAfterUpload: false // must be false for compatibility
 };
 
 tus.uploadAll(files, options)
