@@ -121,8 +121,8 @@ function displayUploadedFiles(result) {
     console.log(files[i].name);
   }
 }
-function updateProgress(percentage) {
-  console.log(percentage);
+function updateProgress(result) {
+  console.log(result.value);
 }
 function logErrors(error) {
   console.log(error);
@@ -152,8 +152,8 @@ function displayUploadedFiles(result) {
     console.log(files[i].name);
   }
 }
-function updateProgress(percentage) {
-  console.log(percentage);
+function updateProgress(result) {
+  console.log(result.value);
 }
 function logErrors(error) {
   console.log(error);
