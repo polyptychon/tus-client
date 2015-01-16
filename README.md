@@ -136,9 +136,6 @@ var options = {
   resetBefore: false,
   resetAfter: true,
   chunkSize: null,
-  minChunkSize: 51200,
-  maxChunkSize: 2097152,
-  path: "",
   moveFileAfterUpload: false
 };
 
