@@ -1,6 +1,6 @@
 # Description
 
-A simple library for uploading files using TUS protocol.
+A simple library for uploading files using [TUS protocol](http://www.tus.io/).
 This library complements [sinatra-tus](https://github.com/polyptychon/sinatra-tus) server.
 
 # Requirements
