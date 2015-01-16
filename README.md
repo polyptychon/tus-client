@@ -110,3 +110,40 @@ function logErrors(error) {
   console.log(error);
 }
 ```
+### Example using browserify
+
+```javascript
+var Q = require("q");
+var tus = require("tus-client");
+
+tus.checkAll(files, options)
+  .catch(openDialogIfFileExist)
+  .then(doChecksum)
+  .then(startUpload)
+  .then(displayUploadedFiles)
+  .progress(updateProgress)
+  .catch(logErrors);
+
+function openDialogIfFileExist() {
+  if (!(confirm("Some files are on server. Do you want to overwrite them?"))) {
+    return Q.reject(error);
+  }
+}
+function doChecksum() {
+  return tus.checksumAll(files, options);
+}
+function startUpload() {
+  return tus.uploadAll(files, options);
+}
+function displayUploadedFiles(result) {
+  for (i = 0, l = files.length; i < l; i++) {
+    console.log(files[i].name);
+  }
+}
+function updateProgress(percentage) {
+  console.log(percentage);
+}
+function logErrors(error) {
+  console.log(error);
+}
+```
