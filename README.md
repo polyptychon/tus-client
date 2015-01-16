@@ -68,7 +68,7 @@ Add a `<script>` to your `index.html`:
 | endpoint      | String   | undefined     | Server URL  |
 | resetBefore   | Boolean  | false         | If resetBefore is true file always uploads from first byte else if previous upload attempt was made, resumes from last uploaded byte |
 | resetAfter    | Boolean  | false         | Clear localStorage after upload completes successfully |
-| chunkSize     | Integer  | null          | if chunkSize is not null then file uploads in chunks else server is responsible for resuming file from last byte uploaded if uploaded operation was interrupted |
+| chunkSize     | Integer  | null          | if chunkSize is not null then file uploads in chunks else if uploaded operation was interrupted server is responsible for resuming file from last byte uploaded  |
 | minChunkSize  | Integer  | 51200         | Minimum chunk size |
 | maxChunkSize  | Integer  | 2097152       | Maximum chunk size |
 | path          | String   | ''            | The folder on server we want uploaded file to move |
