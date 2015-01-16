@@ -1,6 +1,5 @@
 $ = require "jquery" unless jQuery?
 Q = require "q" unless Q?
-ResumableUpload = require "./ResumableUpload"
 tus =  require "./Tus"
 
 $ = jQuery unless $?
