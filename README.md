@@ -46,3 +46,30 @@ Add a `<script>` to your `index.html`:
 
 
 ## Documentation
+
+### api quick guide
+
+| Name          | Type     | parameters         | Returns      | Description |
+| :-----------  | :---:    | :------------      | :----------  | :---------- |
+| check         | method   | file, options      | A+ promise   |             |
+| checksum      | method   | file, options      | A+ promise   |             |
+| upload        | method   | file, options      | A+ promise   |             |
+| stop          | method   | file               | A+ promise   |             |
+| checkAll      | method   | fileList, options  | A+ promise   |             |
+| checksumAll   | method   | fileList, options  | A+ promise   |             |
+| uploadAll     | method   | fileList, options  | A+ promise   |             |
+| stopAll       | method   | fileList           | A+ promise   |             |
+| UploadSupport | property | -                  | Boolean      |             |
+
+### options quick guide
+
+| Name          | Type     | Default value | Description |
+| :-----------  | :---:    | :------------ | :---------- |
+| endpoint      | String   | undefined     | Server URL  |
+| resetBefore   | Boolean  | false         | If resetBefore is true file always uploads from first byte |
+| resetAfter    | Boolean  | false         | Clear localStorage after upload completes successfully |
+| chunkSize     | Integer  | null          | if chunkSize is not null then file uploads in chunks |
+| minChunkSize  | Integer  | 51200         | Minimum chunk size |
+| maxChunkSize  | Integer  | 2097152       | Maximum chunk size |
+| path          | String   | ''            | The folder on server we want uploaded file to move |
+
