@@ -34,7 +34,7 @@ class CheckFileExists
       cache:   false
       headers: headers
 
-    $.ajax(options)
+    @_jqXHR = $.ajax(options)
     .fail(
         (jqXHR, textStatus, errorThrown) =>
           if(jqXHR.status == 404)

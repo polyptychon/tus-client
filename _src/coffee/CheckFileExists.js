@@ -36,7 +36,7 @@
         cache: false,
         headers: headers
       };
-      return $.ajax(options).fail((function(_this) {
+      return this._jqXHR = $.ajax(options).fail((function(_this) {
         return function(jqXHR, textStatus, errorThrown) {
           if (jqXHR.status === 404) {
             return _this._emitFail("File not found: " + textStatus, jqXHR.status);

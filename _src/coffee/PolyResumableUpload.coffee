@@ -56,7 +56,7 @@ class PolyResumableUpload extends ResumableUpload
       cache:   false
       headers: headers
 
-    $.ajax(options)
+    @_jqXHR = $.ajax(options)
       .fail(
         (jqXHR, textStatus, errorThrown) =>
           if(jqXHR.status == 404)
