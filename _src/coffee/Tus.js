@@ -35,9 +35,9 @@
       var deferred, upload;
       deferred = Q.defer();
       upload = new PolyResumableUpload(file, options);
-      file.action = upload;
+      file.stoppableAction = upload;
       upload.fail(function(error, status) {
-        file.action = null;
+        file.stoppableAction = null;
         return deferred.reject(new Error({
           error: error,
           status: status
@@ -46,14 +46,11 @@
       upload.progress(function(e, bytesUploaded, bytesTotal) {
         var percentage;
         percentage = (bytesUploaded / bytesTotal * 100).toFixed(2);
-        return deferred.notify({
-          action: upload,
-          percentage: percentage
-        });
+        return deferred.notify(percentage);
       });
       upload.done(function(url, file, md5) {
-        file.action = null;
-        if (file.md5) {
+        file.stoppableAction = null;
+        if (file.md5 && md5) {
           if (file.md5 === md5) {
             return deferred.resolve({
               url: url,
@@ -81,6 +78,7 @@
       var check, deferred;
       deferred = Q.defer();
       check = new CheckFileExists(file, options);
+      file.stoppableAction = check;
       if (file) {
         check._checkFileExists();
       }
@@ -98,21 +96,18 @@
       var checksum, deferred;
       deferred = Q.defer();
       checksum = new FileChecksum(file, options);
-      file.action = checksum;
+      file.stoppableAction = checksum;
       checksum.fail(function(error) {
-        file.action = null;
+        file.stoppableAction = null;
         return deferred.reject(new Error(error));
       });
       checksum.progress(function(e, bytesUploaded, bytesTotal) {
         var percentage;
         percentage = (bytesUploaded / bytesTotal * 100).toFixed(2);
-        return deferred.notify({
-          action: checksum,
-          percentage: percentage
-        });
+        return deferred.notify(percentage);
       });
       checksum.done(function(file, md5) {
-        file.action = null;
+        file.stoppableAction = null;
         file.md5 = md5;
         return deferred.resolve({
           file: file,
@@ -125,9 +120,10 @@
       return deferred.promise;
     },
     stop: function(file) {
-      if (file.action) {
-        return file.action.stop();
+      if (file.stoppableAction) {
+        file.stoppableAction.stop();
       }
+      return Q.reject("stop");
     },
     checkAll: function(files, options) {
       var file, promises, _i, _len;
@@ -157,13 +153,12 @@
       return Q.all(promises);
     },
     stopAll: function(files) {
-      var file, _i, _len, _results;
-      _results = [];
+      var file, _i, _len;
       for (_i = 0, _len = files.length; _i < _len; _i++) {
         file = files[_i];
-        _results.push(this.stop(file));
+        this.stop(file);
       }
-      return _results;
+      return Q.reject("stop");
     },
     UploadSupport: ResumableUpload.SUPPORT
   };

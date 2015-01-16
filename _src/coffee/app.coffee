@@ -1,6 +1,5 @@
 $ = require "jquery" unless jQuery?
 Q = require "q" unless Q?
-ResumableUpload = require "./ResumableUpload"
 tus =  require "./Tus"
 
 $ = jQuery unless $?
@@ -40,13 +39,13 @@ $('input[type=file]').change( ->
       $download = $("<a>Download #{file.name} (#{file.size} bytes #{file.md5})</a><br />").appendTo($(".container"))
       $download.attr('href', result.url)
       $download.addClass('btn').addClass('btn-success')
-  updateProgress = (result)->
-    $('.progress-bar').css('width', "#{result.value.percentage}%")
+  updateProgress = (percentage)->
+    $('.progress-bar').css('width', "#{percentage}%")
   logErrors = (error) ->
     console.log(error)
   resetUI = () ->
     files = null
-    $input.wrap('<form>').closest('form').get(0).reset();
+    $input.wrap('<form>').closest('form').get(0).reset()
     $input.unwrap()
     $('.progress').removeClass('active')
     $('.js-stop').addClass('disabled')

@@ -14,18 +14,18 @@ global.gr.polyptychon.tus = {
   upload: (file, options) ->
     deferred = Q.defer()
     upload = new PolyResumableUpload(file, options)
-    file.action = upload
+    file.stoppableAction = upload
     upload.fail( (error, status) ->
-      file.action = null
+      file.stoppableAction = null
       deferred.reject(new Error({error: error, status: status}))
     )
     upload.progress((e, bytesUploaded, bytesTotal) ->
       percentage = (bytesUploaded / bytesTotal * 100).toFixed(2)
-      deferred.notify({action: upload, percentage: percentage})
+      deferred.notify(percentage)
     )
     upload.done((url, file, md5) ->
-      file.action = null
-      if (file.md5)
+      file.stoppableAction = null
+      if (file.md5 && md5)
         if (file.md5==md5)
           deferred.resolve({url: url, file: file, md5: md5})
         else
@@ -40,6 +40,7 @@ global.gr.polyptychon.tus = {
   check: (file, options) ->
     deferred = Q.defer();
     check = new CheckFileExists(file, options)
+    file.stoppableAction = check
     check._checkFileExists() if (file)
     check.fail((error, status) ->
       deferred.resolve(file);
@@ -52,17 +53,17 @@ global.gr.polyptychon.tus = {
   checksum: (file, options) ->
     deferred = Q.defer();
     checksum = new FileChecksum(file, options)
-    file.action = checksum
+    file.stoppableAction = checksum
     checksum.fail( (error) ->
-      file.action = null
+      file.stoppableAction = null
       deferred.reject(new Error(error))
     )
     checksum.progress((e, bytesUploaded, bytesTotal) ->
       percentage = (bytesUploaded / bytesTotal * 100).toFixed(2);
-      deferred.notify({action: checksum, percentage: percentage})
+      deferred.notify(percentage)
     )
     checksum.done((file, md5) ->
-      file.action = null
+      file.stoppableAction = null
       file.md5 = md5
       deferred.resolve({file: file, md5: md5})
     )
@@ -70,7 +71,8 @@ global.gr.polyptychon.tus = {
     return deferred.promise
 
   stop: (file)->
-    file.action.stop() if (file.action)
+    file.stoppableAction.stop() if (file.stoppableAction)
+    Q.reject("stop")
 
   checkAll: (files, options) ->
     promises = []
@@ -89,6 +91,7 @@ global.gr.polyptychon.tus = {
 
   stopAll: (files)->
     @stop(file) for file in files
+    Q.reject("stop")
 
   UploadSupport: ResumableUpload.SUPPORT
 }
