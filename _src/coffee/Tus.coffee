@@ -25,7 +25,7 @@ global.gr.polyptychon.tus = {
     )
     upload.done((url, file, md5) ->
       file.stoppableAction = null
-      if (file.md5)
+      if (file.md5 && md5)
         if (file.md5==md5)
           deferred.resolve({url: url, file: file, md5: md5})
         else

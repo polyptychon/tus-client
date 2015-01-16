@@ -50,7 +50,7 @@
       });
       upload.done(function(url, file, md5) {
         file.stoppableAction = null;
-        if (file.md5) {
+        if (file.md5 && md5) {
           if (file.md5 === md5) {
             return deferred.resolve({
               url: url,
