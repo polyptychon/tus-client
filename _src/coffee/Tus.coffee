@@ -72,6 +72,7 @@ global.gr.polyptychon.tus = {
 
   stop: (file)->
     file.stoppableAction.stop() if (file.stoppableAction)
+    Q.reject("stop")
 
   checkAll: (files, options) ->
     promises = []
@@ -90,6 +91,7 @@ global.gr.polyptychon.tus = {
 
   stopAll: (files)->
     @stop(file) for file in files
+    Q.reject("stop")
 
   UploadSupport: ResumableUpload.SUPPORT
 }

@@ -121,8 +121,9 @@
     },
     stop: function(file) {
       if (file.stoppableAction) {
-        return file.stoppableAction.stop();
+        file.stoppableAction.stop();
       }
+      return Q.reject("stop");
     },
     checkAll: function(files, options) {
       var file, promises, _i, _len;
@@ -152,13 +153,12 @@
       return Q.all(promises);
     },
     stopAll: function(files) {
-      var file, _i, _len, _results;
-      _results = [];
+      var file, _i, _len;
       for (_i = 0, _len = files.length; _i < _len; _i++) {
         file = files[_i];
-        _results.push(this.stop(file));
+        this.stop(file);
       }
-      return _results;
+      return Q.reject("stop");
     },
     UploadSupport: ResumableUpload.SUPPORT
   };
