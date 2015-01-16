@@ -80,7 +80,7 @@ Add a `<script>` to your `index.html`:
 var tus = gr.polyptychon.tus;
 var options = {
   endpoint: 'http://localhost:1080/files/',
-  resetBefore: $('#reset_before').prop('checked'),
+  resetBefore: false,
   resetAfter: true,
   chunkSize: 1,
   minChunkSize: 51200,
@@ -126,7 +126,7 @@ var Q = require("q");
 var tus = require("tus-client");
 var options = {
   endpoint: 'http://localhost:1080/files/',
-  resetBefore: $('#reset_before').prop('checked'),
+  resetBefore: false,
   resetAfter: true,
   chunkSize: 1,
   minChunkSize: 51200,
