@@ -46,10 +46,7 @@
       upload.progress(function(e, bytesUploaded, bytesTotal) {
         var percentage;
         percentage = (bytesUploaded / bytesTotal * 100).toFixed(2);
-        return deferred.notify({
-          action: upload,
-          percentage: percentage
-        });
+        return deferred.notify(percentage);
       });
       upload.done(function(url, file, md5) {
         file.action = null;
@@ -106,10 +103,7 @@
       checksum.progress(function(e, bytesUploaded, bytesTotal) {
         var percentage;
         percentage = (bytesUploaded / bytesTotal * 100).toFixed(2);
-        return deferred.notify({
-          action: checksum,
-          percentage: percentage
-        });
+        return deferred.notify(percentage);
       });
       checksum.done(function(file, md5) {
         file.action = null;

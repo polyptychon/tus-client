@@ -21,7 +21,7 @@ global.gr.polyptychon.tus = {
     )
     upload.progress((e, bytesUploaded, bytesTotal) ->
       percentage = (bytesUploaded / bytesTotal * 100).toFixed(2)
-      deferred.notify({action: upload, percentage: percentage})
+      deferred.notify(percentage)
     )
     upload.done((url, file, md5) ->
       file.action = null
@@ -59,7 +59,7 @@ global.gr.polyptychon.tus = {
     )
     checksum.progress((e, bytesUploaded, bytesTotal) ->
       percentage = (bytesUploaded / bytesTotal * 100).toFixed(2);
-      deferred.notify({action: checksum, percentage: percentage})
+      deferred.notify(percentage)
     )
     checksum.done((file, md5) ->
       file.action = null
