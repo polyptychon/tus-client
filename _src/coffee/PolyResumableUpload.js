@@ -62,6 +62,7 @@
       var headers, options;
       if (!this.options.moveFileAfterUpload) {
         this._deferred.resolveWith(this, [this.fileUrl, this.file, null]);
+        return;
       }
       headers = $.extend({
         'Final-Length': this.file.size,
