@@ -1,6 +1,7 @@
 {
   "name": "tus-client",
   "version": "0.1.0",
+  "main": "lib/tus-client.min.js",
   "authors": [
     "harris sidiropoulos <harris.sidiropoulos@gmail.com>"
   ],
