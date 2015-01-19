@@ -46,10 +46,12 @@
       upload.progress(function(e, bytesUploaded, bytesTotal) {
         var percentage;
         percentage = (bytesUploaded / bytesTotal * 100).toFixed(2);
+        file.percentage = percentage;
         return deferred.notify(percentage);
       });
       upload.done(function(url, file, md5) {
         file.stoppableAction = null;
+        file.percentage = null;
         if (file.md5 && md5) {
           if (file.md5 === md5) {
             return deferred.resolve({
@@ -109,10 +111,12 @@
       checksum.progress(function(e, bytesUploaded, bytesTotal) {
         var percentage;
         percentage = (bytesUploaded / bytesTotal * 100).toFixed(2);
+        file.percentage = percentage;
         return deferred.notify(percentage);
       });
       checksum.done(function(file, md5) {
         file.stoppableAction = null;
+        file.percentage = null;
         file.md5 = md5;
         return deferred.resolve({
           file: file,

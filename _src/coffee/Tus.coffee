@@ -21,10 +21,12 @@ global.gr.polyptychon.tus = {
     )
     upload.progress((e, bytesUploaded, bytesTotal) ->
       percentage = (bytesUploaded / bytesTotal * 100).toFixed(2)
+      file.percentage = percentage
       deferred.notify(percentage)
     )
     upload.done((url, file, md5) ->
       file.stoppableAction = null
+      file.percentage = null
       if (file.md5 && md5)
         if (file.md5==md5)
           deferred.resolve({url: url, file: file, md5: md5})
@@ -39,7 +41,7 @@ global.gr.polyptychon.tus = {
     return deferred.promise
 
   check: (file, options) ->
-    deferred = Q.defer();
+    deferred = Q.defer()
     check = new CheckFileExists(file, options)
     file.stoppableAction = check
     check._checkFileExists() if (file)
@@ -52,7 +54,7 @@ global.gr.polyptychon.tus = {
     return deferred.promise
 
   checksum: (file, options) ->
-    deferred = Q.defer();
+    deferred = Q.defer()
     checksum = new FileChecksum(file, options)
     file.stoppableAction = checksum
     checksum.fail( (error) ->
@@ -61,10 +63,12 @@ global.gr.polyptychon.tus = {
     )
     checksum.progress((e, bytesUploaded, bytesTotal) ->
       percentage = (bytesUploaded / bytesTotal * 100).toFixed(2);
+      file.percentage = percentage
       deferred.notify(percentage)
     )
     checksum.done((file, md5) ->
       file.stoppableAction = null
+      file.percentage = null
       file.md5 = md5
       deferred.resolve({file: file, md5: md5})
     )
