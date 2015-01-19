@@ -1,14 +1,15 @@
 {
-  "name": "PepperTree",
+  "name": "tus-client",
   "version": "0.1.0",
   "authors": [
     "harris sidiropoulos <harris.sidiropoulos@gmail.com>"
   ],
-  "description": "Website for PepperTree",
+  "description": "A simple library for uploading files extending TUS protocol. This library complements sinatra-tus server.",
   "keywords": [
-    "responsive",
-    "bootstrap",
-    "carousel"
+    "upload",
+    "tus",
+    "client",
+    "sinatra-tus"
   ],
   "license": "MIT",
   "private": true,
