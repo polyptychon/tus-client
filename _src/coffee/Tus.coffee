@@ -29,13 +29,13 @@ global.gr.polyptychon.tus = {
       file.percentage = null
       if (file.md5 && md5)
         if (file.md5==md5)
-          deferred.resolve({url: url, file: file, md5: md5})
+          deferred.resolve({url: url, md5: md5, file: file, options: options})
         else
           deferred.reject(new Error("Checksum does not match. #{file.md5} != #{md5}"))
       else
         file.md5 = md5 if md5
         file.url = url if url
-        deferred.resolve({url: url, file: file, md5: md5})
+        deferred.resolve({url: url, md5: md5, file: file, options: options})
     )
     upload._start() if (file)
     return deferred.promise
@@ -46,10 +46,10 @@ global.gr.polyptychon.tus = {
     file.stoppableAction = check
     check._checkFileExists() if (file)
     check.fail((error, status) ->
-      deferred.resolve(file);
+      deferred.resolve({file: file, options: options});
     )
     .done((url, file) ->
-      deferred.reject({message:"File already exist", file:file});
+      deferred.reject({message:"File already exist", file:file, options: options });
     )
     return deferred.promise
 
@@ -70,7 +70,7 @@ global.gr.polyptychon.tus = {
       file.stoppableAction = null
       file.percentage = null
       file.md5 = md5
-      deferred.resolve({file: file, md5: md5})
+      deferred.resolve({md5: md5, file: file, options: options})
     )
     checksum._computeChecksum(0) if (file)
     return deferred.promise

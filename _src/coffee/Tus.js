@@ -56,8 +56,9 @@
           if (file.md5 === md5) {
             return deferred.resolve({
               url: url,
+              md5: md5,
               file: file,
-              md5: md5
+              options: options
             });
           } else {
             return deferred.reject(new Error("Checksum does not match. " + file.md5 + " != " + md5));
@@ -71,8 +72,9 @@
           }
           return deferred.resolve({
             url: url,
+            md5: md5,
             file: file,
-            md5: md5
+            options: options
           });
         }
       });
@@ -90,11 +92,15 @@
         check._checkFileExists();
       }
       check.fail(function(error, status) {
-        return deferred.resolve(file);
+        return deferred.resolve({
+          file: file,
+          options: options
+        });
       }).done(function(url, file) {
         return deferred.reject({
           message: "File already exist",
-          file: file
+          file: file,
+          options: options
         });
       });
       return deferred.promise;
@@ -119,8 +125,9 @@
         file.percentage = null;
         file.md5 = md5;
         return deferred.resolve({
+          md5: md5,
           file: file,
-          md5: md5
+          options: options
         });
       });
       if (file) {
