@@ -41,7 +41,7 @@ $('input[type=file]').change( ->
       $download.attr('href', file.url)
       $download.addClass('btn').addClass('btn-success')
   updateProgress = (result)->
-    $('.progress-bar').css('width', "#{result.value}%")
+    $('.progress-bar').css('width', "#{result.value.percentage}%")
   logErrors = (error) ->
     console.log(error)
   resetUI = () ->
