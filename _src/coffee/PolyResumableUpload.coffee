@@ -5,7 +5,7 @@ ResumableUpload = require "./ResumableUpload"
 class PolyResumableUpload extends ResumableUpload
 
   PolyResumableUpload.DEFAULTS =
-    moveFileAfterUpload: true
+    moveFileAfterUpload: false
     chunkSize: null
     minChunkSize: 51200
     maxChunkSize: 2097152

@@ -18,7 +18,7 @@
     __extends(PolyResumableUpload, _super);
 
     PolyResumableUpload.DEFAULTS = {
-      moveFileAfterUpload: true,
+      moveFileAfterUpload: false,
       chunkSize: null,
       minChunkSize: 51200,
       maxChunkSize: 2097152,
