@@ -47,7 +47,11 @@
         var percentage;
         percentage = (bytesUploaded / bytesTotal * 100).toFixed(2);
         file.percentage = percentage;
-        return deferred.notify(percentage);
+        return deferred.notify({
+          percentage: percentage,
+          file: file,
+          options: options
+        });
       });
       upload.done(function(url, file, md5) {
         file.stoppableAction = null;
@@ -118,7 +122,11 @@
         var percentage;
         percentage = (bytesUploaded / bytesTotal * 100).toFixed(2);
         file.percentage = percentage;
-        return deferred.notify(percentage);
+        return deferred.notify({
+          percentage: percentage,
+          file: file,
+          options: options
+        });
       });
       checksum.done(function(file, md5) {
         file.stoppableAction = null;
