@@ -225,7 +225,7 @@ gulp.task('connect', function() {
 });
 
 
-gulp.task('default', ['vendor','coffee', 'sass', 'jade']);
+gulp.task('default', ['coffee', 'sass', 'jade']);
 gulp.task('live', ['coffee', 'jade', 'sass', 'watch']);
 gulp.task('lib', ['libjs','libcss']);
 gulp.task('server', ['connect', 'watch']);
