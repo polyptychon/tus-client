@@ -227,7 +227,7 @@ gulp.task('connect', function() {
 
 gulp.task('default', ['coffee', 'sass', 'jade']);
 gulp.task('live', ['coffee', 'jade', 'sass', 'watch']);
-gulp.task('lib', ['libjs','libcss']);
+gulp.task('lib', ['libjs']);
 gulp.task('server', ['connect', 'watch']);
 gulp.task('production', function() {
   env = PRODUCTION;
