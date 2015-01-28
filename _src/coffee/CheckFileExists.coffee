@@ -4,17 +4,14 @@ $ = jQuery unless $?
 class CheckFileExists
 
   CheckFileExists.DEFAULTS =
-    path: ""
     headers: {}
 
-  constructor: (file, options) ->
-    @file = file
+  constructor: (files, options) ->
+    @files = files
     @options = $.extend(CheckFileExists.DEFAULTS, options)
-
-    # The url of the uploaded file, assigned by the tus upload endpoint
-    @fileUrl = null
-
-    # @TODO Add @bytesTotal again
+    @filenames = []
+    for file in files
+      @filenames.push(file.name)
 
     # the jqXHR object
     @_jqXHR = null
@@ -23,35 +20,35 @@ class CheckFileExists
     @_deferred = $.Deferred();
     @_deferred.promise(this);
 
-  _checkFileExists : ->
-    headers = $.extend({
-      'file-path': "#{@options.path}/#{@file.name}"
-    }, @options.headers)
+  _checkFiles : ->
+    headers = $.extend({}, @options.headers)
 
     options =
-      type:    'HEAD'
-      url:     @options.endpoint
+      type:    'POST'
+      url:     "#{@options.endpoint}/check"
       cache:   false
       headers: headers
+      data:    JSON.stringify({"filenames":@filenames})
 
     @_jqXHR = $.ajax(options)
     .fail(
         (jqXHR, textStatus, errorThrown) =>
-          if(jqXHR.status == 404)
-            @_emitFail("File not found: #{textStatus}", jqXHR.status)
-          else
-            @_emitFail(textStatus, jqXHR.status)
+          @_emitFail(textStatus, jqXHR.status)
       )
     .done(
         (data, textStatus, jqXHR) =>
-          @_emitDone()
+          if (!data.results? || data.results?.length>0)
+            @_emitFail(data.results)
+          else
+            @_emitDone()
+
       )
 
   stop : ->
     @_jqXHR.abort() if @_jqXHR?
 
   _emitDone : ->
-    @_deferred.resolveWith(this, [@fileUrl, @file])
+    @_deferred.resolveWith(this, [@files])
 
   _emitFail : (err, status) ->
     @_deferred.rejectWith(this, [err, status])

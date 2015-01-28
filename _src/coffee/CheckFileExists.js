@@ -12,41 +12,47 @@
 
   CheckFileExists = (function() {
     CheckFileExists.DEFAULTS = {
-      path: "",
       headers: {}
     };
 
-    function CheckFileExists(file, options) {
-      this.file = file;
+    function CheckFileExists(files, options) {
+      var file, _i, _len;
+      this.files = files;
       this.options = $.extend(CheckFileExists.DEFAULTS, options);
-      this.fileUrl = null;
+      this.filenames = [];
+      for (_i = 0, _len = files.length; _i < _len; _i++) {
+        file = files[_i];
+        this.filenames.push(file.name);
+      }
       this._jqXHR = null;
       this._deferred = $.Deferred();
       this._deferred.promise(this);
     }
 
-    CheckFileExists.prototype._checkFileExists = function() {
+    CheckFileExists.prototype._checkFiles = function() {
       var headers, options;
-      headers = $.extend({
-        'file-path': "" + this.options.path + "/" + this.file.name
-      }, this.options.headers);
+      headers = $.extend({}, this.options.headers);
       options = {
-        type: 'HEAD',
-        url: this.options.endpoint,
+        type: 'POST',
+        url: "" + this.options.endpoint + "/check",
         cache: false,
-        headers: headers
+        headers: headers,
+        data: JSON.stringify({
+          "filenames": this.filenames
+        })
       };
       return this._jqXHR = $.ajax(options).fail((function(_this) {
         return function(jqXHR, textStatus, errorThrown) {
-          if (jqXHR.status === 404) {
-            return _this._emitFail("File not found: " + textStatus, jqXHR.status);
-          } else {
-            return _this._emitFail(textStatus, jqXHR.status);
-          }
+          return _this._emitFail(textStatus, jqXHR.status);
         };
       })(this)).done((function(_this) {
         return function(data, textStatus, jqXHR) {
-          return _this._emitDone();
+          var _ref;
+          if ((data.results == null) || ((_ref = data.results) != null ? _ref.length : void 0) > 0) {
+            return _this._emitFail(data.results);
+          } else {
+            return _this._emitDone();
+          }
         };
       })(this));
     };
@@ -58,7 +64,7 @@
     };
 
     CheckFileExists.prototype._emitDone = function() {
-      return this._deferred.resolveWith(this, [this.fileUrl, this.file]);
+      return this._deferred.resolveWith(this, [this.files]);
     };
 
     CheckFileExists.prototype._emitFail = function(err, status) {
