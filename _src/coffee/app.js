@@ -81,14 +81,7 @@
       $('.progress').removeClass('active');
       return $('.js-stop').addClass('disabled');
     };
-    options = {
-      endpoint: 'http://localhost:1080/files/',
-      resetBefore: $('#reset_before').prop('checked'),
-      resetAfter: true,
-      chunkSize: 2097152,
-      moveFileAfterUpload: false
-    };
-    return tus.uploadAll(files, options).then(displayUploadedFiles).progress(updateProgress)["catch"](logErrors).fin(resetUI);
+    return tus.checkAll(files, options)["catch"](openDialogIfFileExist).then(doChecksum).then(startUpload).then(displayUploadedFiles).progress(updateProgress)["catch"](logErrors).fin(resetUI);
   });
 
 }).call(this);

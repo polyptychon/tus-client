@@ -64,22 +64,21 @@
 
     PolyResumableUpload.prototype._moveFile = function() {
       var headers, options;
-      headers = $.extend({
-        'Final-Length': this.file.size,
-        'file-path': "" + this.options.path + "/" + this.file.name
-      }, this.options.headers);
+      headers = $.extend({}, this.options.headers);
       options = {
-        type: 'PUT',
-        url: this.fileUrl,
+        type: 'POST',
+        url: "" + this.fileUrl + "/move",
         cache: false,
+        data: "path=" + this.options.path + this.file.name,
         headers: headers
       };
+      console.log(options);
       return this._jqXHR = $.ajax(options).fail((function(_this) {
         return function(jqXHR, textStatus, errorThrown) {
           if (jqXHR.status === 404) {
-            return _this._emitFail("Could not move file resource: " + textStatus, jqXHR.status);
-          } else {
             return _this._emitFail("Could not head at file resource: " + textStatus, jqXHR.status);
+          } else {
+            return _this._emitFail("Could not move file resource: " + errorThrown + " " + textStatus, jqXHR.status);
           }
         };
       })(this)).done((function(_this) {
