@@ -18,13 +18,13 @@
     Q = global.Q;
   }
 
-  ResumableUpload = require("./ResumableUpload");
+  ResumableUpload = require("./ResumableUpload.coffee");
 
-  PolyResumableUpload = require("./PolyResumableUpload");
+  PolyResumableUpload = require("./PolyResumableUpload.coffee");
 
-  CheckFileExists = require("./CheckFileExists");
+  CheckFileExists = require("./CheckFileExists.coffee");
 
-  FileChecksum = require("./FileChecksum");
+  FileChecksum = require("./FileChecksum.coffee");
 
   global.gr = global.gr || {};
 

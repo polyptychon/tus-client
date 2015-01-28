@@ -62,7 +62,8 @@ class ResumableUpload
           location = jqXHR.getResponseHeader('Location')
           return _emitFail('Could not get url for file resource. ' + textStatus, jqXHR.status) unless location
           @fileUrl = location
-          @_uploadFile(0)
+          #@_uploadFile(0)
+          @_head()
       )
 
   _head : ->

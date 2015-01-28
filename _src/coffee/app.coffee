@@ -1,6 +1,6 @@
 $ = require "jquery" unless jQuery?
 Q = require "q" unless Q?
-tus =  require "./Tus"
+tus =  require "./Tus.coffee"
 
 $ = jQuery unless $?
 upload = null
@@ -51,25 +51,25 @@ $('input[type=file]').change( ->
     $('.progress').removeClass('active')
     $('.js-stop').addClass('disabled')
 
-  tus.checkAll(files, options)
-    .catch(openDialogIfFileExist)
-    .then(doChecksum)
-    .then(startUpload)
-    .then(displayUploadedFiles)
-    .progress(updateProgress)
-    .catch(logErrors)
-    .fin(resetUI)
-
-#  options =
-#    endpoint: 'http://localhost:1080/files/'
-#    resetBefore: $('#reset_before').prop('checked') # if resetBefore is true file always uploads from first byte
-#    resetAfter: true # clear localStorage after upload completes successfully
-#    chunkSize: null # if chunkSize is not null then file uploads in chunks
-#    moveFileAfterUpload: false
-#
-#  tus.uploadAll(files, options)
+#  tus.checkAll(files, options)
+#    .catch(openDialogIfFileExist)
+#    .then(doChecksum)
+#    .then(startUpload)
 #    .then(displayUploadedFiles)
 #    .progress(updateProgress)
 #    .catch(logErrors)
 #    .fin(resetUI)
+
+  options =
+    endpoint: 'http://localhost:1080/files/'
+    resetBefore: $('#reset_before').prop('checked') # if resetBefore is true file always uploads from first byte
+    resetAfter: true # clear localStorage after upload completes successfully
+    chunkSize: 2097152 # if chunkSize is not null then file uploads in chunks
+    moveFileAfterUpload: false
+
+  tus.uploadAll(files, options)
+    .then(displayUploadedFiles)
+    .progress(updateProgress)
+    .catch(logErrors)
+    .fin(resetUI)
 )
