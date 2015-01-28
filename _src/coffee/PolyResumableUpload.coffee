@@ -1,6 +1,6 @@
 $ = require "jquery" unless jQuery?
 $ = jQuery unless $?
-ResumableUpload = require "./ResumableUpload"
+ResumableUpload = require "./ResumableUpload.coffee"
 
 class PolyResumableUpload extends ResumableUpload
 

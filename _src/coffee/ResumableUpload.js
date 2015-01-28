@@ -63,7 +63,7 @@
             return _emitFail('Could not get url for file resource. ' + textStatus, jqXHR.status);
           }
           _this.fileUrl = location;
-          return _this._uploadFile(0);
+          return _this._head();
         };
       })(this));
     };
