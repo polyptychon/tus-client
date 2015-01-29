@@ -29,9 +29,7 @@ $('input[type=file]').change( ->
     path: "" # Where we want to put uploaded file on server
 
   openDialogIfFileExist = (error)->
-    filesStr = ''
-    filesStr += file.name for file in error.foundFiles
-    Q.reject(error) unless (confirm("File(s) \"#{filesStr}\" are on server. Do you want to overwrite them?"))
+    Q.reject(error) unless (confirm("File(s) \"#{error.foundFilesString}\" are on server. Do you want to overwrite them?"))
   doChecksum = ()->
     return tus.checksumAll(files, options) if $('#checksum').prop('checked')
   startUpload = ()->

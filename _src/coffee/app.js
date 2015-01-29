@@ -44,14 +44,7 @@
       path: ""
     };
     openDialogIfFileExist = function(error) {
-      var file, filesStr, _i, _len, _ref;
-      filesStr = '';
-      _ref = error.foundFiles;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        file = _ref[_i];
-        filesStr += file.name;
-      }
-      if (!(confirm("File(s) \"" + filesStr + "\" are on server. Do you want to overwrite them?"))) {
+      if (!(confirm("File(s) \"" + error.foundFilesString + "\" are on server. Do you want to overwrite them?"))) {
         return Q.reject(error);
       }
     };

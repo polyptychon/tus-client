@@ -49,22 +49,26 @@
         };
       })(this)).done((function(_this) {
         return function(data, textStatus, jqXHR) {
-          var file, foundFiles, _i, _len, _ref;
+          var file, foundFiles, foundFilesString, _i, _len, _ref;
           if (data.results == null) {
             _this._emitFail(new Error("Bad Response"));
           }
           foundFiles = [];
+          foundFilesString = '';
           _ref = data.results;
           for (_i = 0, _len = _ref.length; _i < _len; _i++) {
             file = _ref[_i];
             if (file.status === 'found') {
               foundFiles.push(file);
+              foundFilesString += file.name + ', ';
             }
           }
+          foundFilesString = foundFilesString.substr(0, foundFilesString.length - 2);
           if (foundFiles.length > 0) {
             return _this._emitFail({
               foundFiles: foundFiles,
-              results: data.results
+              results: data.results,
+              foundFilesString: foundFilesString
             });
           } else {
             return _this._emitDone();
