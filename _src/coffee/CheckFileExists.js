@@ -50,7 +50,6 @@
       })(this)).done((function(_this) {
         return function(data, textStatus, jqXHR) {
           var file, foundFiles, foundFilesString, _i, _len, _ref;
-          console.log(data.results == null);
           if (data.results == null) {
             _this._emitFail(new Error("Bad Response"));
             return;

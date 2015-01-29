@@ -39,7 +39,6 @@ class CheckFileExists
       )
     .done(
         (data, textStatus, jqXHR) =>
-          console.log(!data.results?)
           if (!data.results?)
             @_emitFail(new Error("Bad Response"))
             return
