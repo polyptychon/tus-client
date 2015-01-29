@@ -70,7 +70,9 @@
         url: "" + this.fileUrl + "/move",
         cache: false,
         contentType: "application/json; charset=UTF-8",
-        data: "{path:" + this.options.path + this.file.name + "}",
+        data: JSON.stringify({
+          path: this.options.path + this.file.name
+        }),
         headers: headers
       };
       console.log(options);
