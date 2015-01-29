@@ -44,8 +44,12 @@
       path: ""
     };
     openDialogIfFileExist = function(error) {
-      if (!(confirm("File(s) \"" + error.foundFilesString + "\" are on server. Do you want to overwrite them?"))) {
+      if (error instanceof Error) {
         return Q.reject(error);
+      } else {
+        if (!(confirm("File(s) \"" + error.foundFilesString + "\" are on server. Do you want to overwrite them?"))) {
+          return Q.reject(error);
+        }
       }
     };
     doChecksum = function() {

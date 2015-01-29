@@ -45,13 +45,15 @@
       };
       return this._jqXHR = $.ajax(options).fail((function(_this) {
         return function(jqXHR, textStatus, errorThrown) {
-          return _this._emitFail(textStatus, jqXHR.status);
+          return _this._emitFail(new Error("" + textStatus + ": " + errorThrown));
         };
       })(this)).done((function(_this) {
         return function(data, textStatus, jqXHR) {
           var file, foundFiles, foundFilesString, _i, _len, _ref;
+          console.log(data.results == null);
           if (data.results == null) {
             _this._emitFail(new Error("Bad Response"));
+            return;
           }
           foundFiles = [];
           foundFilesString = '';
@@ -68,7 +70,8 @@
             return _this._emitFail({
               foundFiles: foundFiles,
               results: data.results,
-              foundFilesString: foundFilesString
+              foundFilesString: foundFilesString,
+              status: 'found'
             });
           } else {
             return _this._emitDone();

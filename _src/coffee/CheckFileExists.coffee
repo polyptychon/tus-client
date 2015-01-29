@@ -35,11 +35,14 @@ class CheckFileExists
     @_jqXHR = $.ajax(options)
     .fail(
         (jqXHR, textStatus, errorThrown) =>
-          @_emitFail(textStatus, jqXHR.status)
+          @_emitFail(new Error("#{textStatus}: #{errorThrown}"))
       )
     .done(
         (data, textStatus, jqXHR) =>
-          @_emitFail(new Error("Bad Response")) if (!data.results?)
+          console.log(!data.results?)
+          if (!data.results?)
+            @_emitFail(new Error("Bad Response"))
+            return
           foundFiles = []
           foundFilesString = ''
           for file in data.results
@@ -47,9 +50,9 @@ class CheckFileExists
               foundFiles.push(file)
               foundFilesString += file.name+', '
           foundFilesString = foundFilesString.substr(0, foundFilesString.length-2)
-          
+
           if foundFiles.length > 0
-            @_emitFail({foundFiles:foundFiles, results: data.results, foundFilesString: foundFilesString})
+            @_emitFail({foundFiles:foundFiles, results: data.results, foundFilesString: foundFilesString, status:'found'})
           else
             @_emitDone()
 
