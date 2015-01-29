@@ -10,7 +10,7 @@
     Q = require("q");
   }
 
-  tus = require("./Tus.coffee");
+  tus = require("./Tus");
 
   if ($ == null) {
     $ = jQuery;

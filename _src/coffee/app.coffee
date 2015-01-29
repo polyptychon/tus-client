@@ -1,6 +1,6 @@
 $ = require "jquery" unless jQuery?
 Q = require "q" unless Q?
-tus =  require "./Tus.coffee"
+tus =  require "./Tus"
 
 $ = jQuery unless $?
 upload = null

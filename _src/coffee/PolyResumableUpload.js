@@ -12,7 +12,7 @@
     $ = jQuery;
   }
 
-  ResumableUpload = require("./ResumableUpload.coffee");
+  ResumableUpload = require("./ResumableUpload");
 
   PolyResumableUpload = (function(_super) {
     __extends(PolyResumableUpload, _super);

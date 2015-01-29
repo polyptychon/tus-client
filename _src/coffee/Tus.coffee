@@ -2,10 +2,10 @@ $ = require "jquery" unless jQuery?
 $ = jQuery unless $?
 Q = require "q" unless global.Q?
 Q = global.Q if global.Q?
-ResumableUpload = require "./ResumableUpload.coffee"
-PolyResumableUpload = require "./PolyResumableUpload.coffee"
-CheckFileExists = require "./CheckFileExists.coffee"
-FileChecksum = require "./FileChecksum.coffee"
+ResumableUpload = require "./ResumableUpload"
+PolyResumableUpload = require "./PolyResumableUpload"
+CheckFileExists = require "./CheckFileExists"
+FileChecksum = require "./FileChecksum"
 
 global.gr = global.gr || {}
 global.gr.polyptychon = global.gr.polyptychon || {}
