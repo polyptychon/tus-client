@@ -37,6 +37,7 @@
         url: "" + this.options.endpoint + "/check",
         cache: false,
         headers: headers,
+        processData: false,
         data: JSON.stringify({
           "filenames": this.filenames
         })

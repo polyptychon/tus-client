@@ -28,6 +28,7 @@ class CheckFileExists
       url:     "#{@options.endpoint}/check"
       cache:   false
       headers: headers
+      processData : false
       data:    JSON.stringify({"filenames":@filenames})
 
     @_jqXHR = $.ajax(options)
