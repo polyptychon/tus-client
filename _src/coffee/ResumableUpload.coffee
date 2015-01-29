@@ -43,7 +43,7 @@ class ResumableUpload
 
   _post : ->
     headers = $.extend({
-      'Final-Length': @file.size
+      'Entity-Length': @file.size
     }, @options.headers)
 
     options =

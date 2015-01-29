@@ -44,7 +44,7 @@
     ResumableUpload.prototype._post = function() {
       var headers, options;
       headers = $.extend({
-        'Final-Length': this.file.size
+        'Entity-Length': this.file.size
       }, this.options.headers);
       options = {
         type: 'POST',

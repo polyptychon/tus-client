@@ -14,7 +14,6 @@ $('.js-stop').click( (e) ->
 $('input[type=file]').change( ->
   $input  = $(this)
   files   = this.files
-  overwriteMessage = "Some files are on server. Do you want to overwrite them?"
 
   $('.js-stop').removeClass('disabled')
   $('.progress').addClass('active')
@@ -23,14 +22,18 @@ $('input[type=file]').change( ->
     endpoint: 'http://localhost:1080/files/'
     resetBefore: $('#reset_before').prop('checked') # if resetBefore is true file always uploads from first byte
     resetAfter: true # clear localStorage after upload completes successfully
-    chunkSize: null # if chunkSize is not null then file uploads in chunks
+    chunkSize: 1 # if chunkSize is not null then file uploads in chunks
+    checksum: true
     minChunkSize: 51200
     maxChunkSize: 2097152
     moveFileAfterUpload: true
     path: "" # Where we want to put uploaded file on server
 
   openDialogIfFileExist = (error)->
-    Q.reject(error) unless (confirm(overwriteMessage))
+    if (error instanceof Error)
+      Q.reject(error)
+    else
+      Q.reject(error) unless (confirm("File(s) \"#{error.foundFilesString}\" are on server. Do you want to overwrite them?"))
   doChecksum = ()->
     return tus.checksumAll(files, options) if $('#checksum').prop('checked')
   startUpload = ()->
@@ -51,25 +54,25 @@ $('input[type=file]').change( ->
     $('.progress').removeClass('active')
     $('.js-stop').addClass('disabled')
 
-#  tus.checkAll(files, options)
-#    .catch(openDialogIfFileExist)
-#    .then(doChecksum)
-#    .then(startUpload)
-#    .then(displayUploadedFiles)
-#    .progress(updateProgress)
-#    .catch(logErrors)
-#    .fin(resetUI)
-
-  options =
-    endpoint: 'http://localhost:1080/files/'
-    resetBefore: $('#reset_before').prop('checked') # if resetBefore is true file always uploads from first byte
-    resetAfter: true # clear localStorage after upload completes successfully
-    chunkSize: 2097152 # if chunkSize is not null then file uploads in chunks
-    moveFileAfterUpload: false
-
-  tus.uploadAll(files, options)
+  tus.checkAll(files, options)
+    .catch(openDialogIfFileExist)
+    .then(doChecksum)
+    .then(startUpload)
     .then(displayUploadedFiles)
     .progress(updateProgress)
     .catch(logErrors)
     .fin(resetUI)
+
+#  options =
+#    endpoint: 'http://localhost:1080/files/'
+#    resetBefore: $('#reset_before').prop('checked') # if resetBefore is true file always uploads from first byte
+#    resetAfter: true # clear localStorage after upload completes successfully
+#    chunkSize: 2097152 # if chunkSize is not null then file uploads in chunks
+#    moveFileAfterUpload: false
+#
+#  tus.uploadAll(files, options)
+#    .then(displayUploadedFiles)
+#    .progress(updateProgress)
+#    .catch(logErrors)
+#    .fin(resetUI)
 )

@@ -38,10 +38,7 @@
       file.stoppableAction = upload;
       upload.fail(function(error, status) {
         file.stoppableAction = null;
-        return deferred.reject(new Error({
-          error: error,
-          status: status
-        }));
+        return deferred.reject(error);
       });
       upload.progress(function(e, bytesUploaded, bytesTotal) {
         var percentage;
@@ -87,23 +84,20 @@
       }
       return deferred.promise;
     },
-    check: function(file, options) {
-      var check, deferred;
+    checkAll: function(files, options) {
+      var check, deferred, file, _i, _len;
       deferred = Q.defer();
-      check = new CheckFileExists(file, options);
-      file.stoppableAction = check;
-      if (file) {
-        check._checkFileExists();
+      check = new CheckFileExists(files, options);
+      for (_i = 0, _len = files.length; _i < _len; _i++) {
+        file = files[_i];
+        file.stoppableAction = check;
       }
-      check.fail(function(error, status) {
+      check._checkFiles();
+      check.fail(function(error) {
+        return deferred.reject(error);
+      }).done(function(files) {
         return deferred.resolve({
-          file: file,
-          options: options
-        });
-      }).done(function(url, file) {
-        return deferred.reject({
-          message: "File already exist",
-          file: file,
+          files: files,
           options: options
         });
       });
@@ -111,6 +105,7 @@
     },
     checksum: function(file, options) {
       var checksum, deferred;
+      options.checksum = true;
       deferred = Q.defer();
       checksum = new FileChecksum(file, options);
       file.stoppableAction = checksum;
@@ -148,15 +143,6 @@
         file.stoppableAction.stop();
       }
       return Q.reject("stop");
-    },
-    checkAll: function(files, options) {
-      var file, promises, _i, _len;
-      promises = [];
-      for (_i = 0, _len = files.length; _i < _len; _i++) {
-        file = files[_i];
-        promises.push(this.check(file, options));
-      }
-      return Q.all(promises);
     },
     checksumAll: function(files, options) {
       var file, promises, _i, _len;

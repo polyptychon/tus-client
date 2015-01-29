@@ -28,25 +28,29 @@
   });
 
   $('input[type=file]').change(function() {
-    var $input, displayUploadedFiles, doChecksum, logErrors, openDialogIfFileExist, options, overwriteMessage, resetUI, startUpload, updateProgress;
+    var $input, displayUploadedFiles, doChecksum, logErrors, openDialogIfFileExist, options, resetUI, startUpload, updateProgress;
     $input = $(this);
     files = this.files;
-    overwriteMessage = "Some files are on server. Do you want to overwrite them?";
     $('.js-stop').removeClass('disabled');
     $('.progress').addClass('active');
     options = {
       endpoint: 'http://localhost:1080/files/',
       resetBefore: $('#reset_before').prop('checked'),
       resetAfter: true,
-      chunkSize: null,
+      chunkSize: 1,
+      checksum: true,
       minChunkSize: 51200,
       maxChunkSize: 2097152,
       moveFileAfterUpload: true,
       path: ""
     };
     openDialogIfFileExist = function(error) {
-      if (!(confirm(overwriteMessage))) {
+      if (error instanceof Error) {
         return Q.reject(error);
+      } else {
+        if (!(confirm("File(s) \"" + error.foundFilesString + "\" are on server. Do you want to overwrite them?"))) {
+          return Q.reject(error);
+        }
       }
     };
     doChecksum = function() {
@@ -81,14 +85,7 @@
       $('.progress').removeClass('active');
       return $('.js-stop').addClass('disabled');
     };
-    options = {
-      endpoint: 'http://localhost:1080/files/',
-      resetBefore: $('#reset_before').prop('checked'),
-      resetAfter: true,
-      chunkSize: 2097152,
-      moveFileAfterUpload: false
-    };
-    return tus.uploadAll(files, options).then(displayUploadedFiles).progress(updateProgress)["catch"](logErrors).fin(resetUI);
+    return tus.checkAll(files, options)["catch"](openDialogIfFileExist).then(doChecksum).then(startUpload).then(displayUploadedFiles).progress(updateProgress)["catch"](logErrors).fin(resetUI);
   });
 
 }).call(this);

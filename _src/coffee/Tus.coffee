@@ -17,7 +17,8 @@ global.gr.polyptychon.tus = {
     file.stoppableAction = upload
     upload.fail( (error, status) ->
       file.stoppableAction = null
-      deferred.reject(new Error({error: error, status: status}))
+      #deferred.reject(new Error({error: error, status: status}))
+      deferred.reject(error)
     )
     upload.progress((e, bytesUploaded, bytesTotal) ->
       percentage = (bytesUploaded / bytesTotal * 100).toFixed(2)
@@ -40,20 +41,22 @@ global.gr.polyptychon.tus = {
     upload._start() if (file)
     return deferred.promise
 
-  check: (file, options) ->
+  checkAll: (files, options) ->
     deferred = Q.defer()
-    check = new CheckFileExists(file, options)
-    file.stoppableAction = check
-    check._checkFileExists() if (file)
-    check.fail((error, status) ->
-      deferred.resolve({file: file, options: options});
+    check = new CheckFileExists(files, options)
+    file.stoppableAction = check for file in files
+    check._checkFiles()
+    check.fail((error) ->
+      deferred.reject(error);
     )
-    .done((url, file) ->
-      deferred.reject({message:"File already exist", file:file, options: options });
+    .done((files) ->
+      deferred.resolve({files: files, options: options});
+
     )
     return deferred.promise
 
   checksum: (file, options) ->
+    options.checksum = true
     deferred = Q.defer()
     checksum = new FileChecksum(file, options)
     file.stoppableAction = checksum
@@ -78,11 +81,6 @@ global.gr.polyptychon.tus = {
   stop: (file)->
     file.stoppableAction.stop() if (file.stoppableAction)
     Q.reject("stop")
-
-  checkAll: (files, options) ->
-    promises = []
-    promises.push(@check(file, options)) for file in files
-    return Q.all(promises)
 
   checksumAll: (files, options) ->
     promises = []

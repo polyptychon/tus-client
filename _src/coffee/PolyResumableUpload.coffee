@@ -10,6 +10,7 @@ class PolyResumableUpload extends ResumableUpload
     minChunkSize: 51200
     maxChunkSize: 2097152
     path: ""
+    checksum: false
 
   constructor: (file, options) ->
     options = $.extend(PolyResumableUpload.DEFAULTS, options)
@@ -45,24 +46,23 @@ class PolyResumableUpload extends ResumableUpload
     @_deferred.resolveWith(this, [@fileUrl, @file, md5])
 
   _moveFile : ->
-    headers = $.extend({
-      'Final-Length': @file.size
-      'file-path': "#{@options.path}/#{@file.name}"
-    }, @options.headers)
+    headers = $.extend({}, @options.headers)
 
     options =
-      type:    'PUT'
-      url:     @fileUrl
+      type:    'POST'
+      url:     "#{@fileUrl}/move"
       cache:   false
+      contentType: "application/json; charset=UTF-8"
+      data:    JSON.stringify({ path: (@options.path+@file.name), checksum: @options.checksum})
       headers: headers
 
     @_jqXHR = $.ajax(options)
       .fail(
         (jqXHR, textStatus, errorThrown) =>
           if(jqXHR.status == 404)
-            @_emitFail("Could not move file resource: #{textStatus}", jqXHR.status)
-          else
             @_emitFail("Could not head at file resource: #{textStatus}", jqXHR.status)
+          else
+            @_emitFail("Could not move file resource: #{errorThrown} #{textStatus}", jqXHR.status)
       )
       .done(
         (data, textStatus, jqXHR) =>

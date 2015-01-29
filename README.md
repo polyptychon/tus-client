@@ -73,6 +73,7 @@ Add a `<script>` to your `index.html`:
 | minChunkSize  | Integer  | 51200         | Minimum chunk size |
 | maxChunkSize  | Integer  | 2097152       | Maximum chunk size |
 | path          | String   | ''            | The folder on server we want uploaded file to move |
+| checksum      | Boolean  | false         | if we want to perform md5 checksum on server |
 | moveFileAfterUpload | Boolean   | false   | if we want to rename and move uploaded file. For compatibility with other tus server this option should be false |
 
 ### Using library
@@ -95,6 +96,7 @@ var options = {
   minChunkSize: 51200,
   maxChunkSize: 2097152,
   path: ""
+  checksum: true
 };
 
 tus.checkAll(files, options)

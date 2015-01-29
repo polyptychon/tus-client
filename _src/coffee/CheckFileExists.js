@@ -12,41 +12,71 @@
 
   CheckFileExists = (function() {
     CheckFileExists.DEFAULTS = {
-      path: "",
+      checksum: false,
       headers: {}
     };
 
-    function CheckFileExists(file, options) {
-      this.file = file;
+    function CheckFileExists(files, options) {
+      var file, _i, _len;
+      this.files = files;
       this.options = $.extend(CheckFileExists.DEFAULTS, options);
-      this.fileUrl = null;
+      this.filenames = [];
+      for (_i = 0, _len = files.length; _i < _len; _i++) {
+        file = files[_i];
+        this.filenames.push(file.name);
+      }
       this._jqXHR = null;
       this._deferred = $.Deferred();
       this._deferred.promise(this);
     }
 
-    CheckFileExists.prototype._checkFileExists = function() {
+    CheckFileExists.prototype._checkFiles = function() {
       var headers, options;
-      headers = $.extend({
-        'file-path': "" + this.options.path + "/" + this.file.name
-      }, this.options.headers);
+      headers = $.extend({}, this.options.headers);
       options = {
-        type: 'HEAD',
-        url: this.options.endpoint,
+        type: 'POST',
+        url: "" + this.options.endpoint + "check",
         cache: false,
-        headers: headers
+        contentType: "application/json; charset=UTF-8",
+        headers: headers,
+        processData: false,
+        data: JSON.stringify({
+          "filenames": this.filenames,
+          "checksum": this.options.checksum
+        })
       };
       return this._jqXHR = $.ajax(options).fail((function(_this) {
         return function(jqXHR, textStatus, errorThrown) {
-          if (jqXHR.status === 404) {
-            return _this._emitFail("File not found: " + textStatus, jqXHR.status);
-          } else {
-            return _this._emitFail(textStatus, jqXHR.status);
-          }
+          return _this._emitFail(new Error("" + textStatus + ": " + errorThrown));
         };
       })(this)).done((function(_this) {
         return function(data, textStatus, jqXHR) {
-          return _this._emitDone();
+          var file, foundFiles, foundFilesString, _i, _len, _ref;
+          if (data.results == null) {
+            _this._emitFail(new Error("Bad Response"));
+            return;
+          }
+          foundFiles = [];
+          foundFilesString = '';
+          _ref = data.results;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            file = _ref[_i];
+            if (file.status === 'found') {
+              foundFiles.push(file);
+              foundFilesString += file.name + ', ';
+            }
+          }
+          foundFilesString = foundFilesString.substr(0, foundFilesString.length - 2);
+          if (foundFiles.length > 0) {
+            return _this._emitFail({
+              foundFiles: foundFiles,
+              results: data.results,
+              foundFilesString: foundFilesString,
+              status: 'found'
+            });
+          } else {
+            return _this._emitDone();
+          }
         };
       })(this));
     };
@@ -58,7 +88,7 @@
     };
 
     CheckFileExists.prototype._emitDone = function() {
-      return this._deferred.resolveWith(this, [this.fileUrl, this.file]);
+      return this._deferred.resolveWith(this, [this.files]);
     };
 
     CheckFileExists.prototype._emitFail = function(err, status) {
