@@ -25,7 +25,7 @@ class CheckFileExists
 
     options =
       type:    'POST'
-      url:     "#{@options.endpoint}/check"
+      url:     "#{@options.endpoint}check"
       cache:   false
       contentType: "application/json; charset=UTF-8"
       headers: headers

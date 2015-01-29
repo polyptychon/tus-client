@@ -69,7 +69,8 @@
         type: 'POST',
         url: "" + this.fileUrl + "/move",
         cache: false,
-        data: "path=" + this.options.path + this.file.name,
+        contentType: "application/json; charset=UTF-8",
+        data: "{path:" + this.options.path + this.file.name + "}",
         headers: headers
       };
       console.log(options);

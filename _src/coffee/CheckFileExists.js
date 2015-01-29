@@ -34,7 +34,7 @@
       headers = $.extend({}, this.options.headers);
       options = {
         type: 'POST',
-        url: "" + this.options.endpoint + "/check",
+        url: "" + this.options.endpoint + "check",
         cache: false,
         contentType: "application/json; charset=UTF-8",
         headers: headers,

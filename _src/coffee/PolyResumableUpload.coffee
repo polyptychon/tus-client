@@ -51,7 +51,8 @@ class PolyResumableUpload extends ResumableUpload
       type:    'POST'
       url:     "#{@fileUrl}/move"
       cache:   false
-      data:    "path=#{@options.path}#{@file.name}"
+      contentType: "application/json; charset=UTF-8"
+      data:    "{path:#{@options.path}#{@file.name}}"
       headers: headers
     console.log(options)
     @_jqXHR = $.ajax(options)
