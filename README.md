@@ -96,6 +96,7 @@ var options = {
   minChunkSize: 51200,
   maxChunkSize: 2097152,
   path: ""
+  checksum: true
 };
 
 tus.checkAll(files, options)
