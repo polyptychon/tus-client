@@ -28,10 +28,9 @@
   });
 
   $('input[type=file]').change(function() {
-    var $input, displayUploadedFiles, doChecksum, logErrors, openDialogIfFileExist, options, overwriteMessage, resetUI, startUpload, updateProgress;
+    var $input, displayUploadedFiles, doChecksum, logErrors, openDialogIfFileExist, options, resetUI, startUpload, updateProgress;
     $input = $(this);
     files = this.files;
-    overwriteMessage = "Some files are on server. Do you want to overwrite them?";
     $('.js-stop').removeClass('disabled');
     $('.progress').addClass('active');
     options = {
@@ -45,7 +44,14 @@
       path: ""
     };
     openDialogIfFileExist = function(error) {
-      if (!(confirm(overwriteMessage))) {
+      var file, filesStr, _i, _len, _ref;
+      filesStr = '';
+      _ref = error.foundFiles;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        file = _ref[_i];
+        filesStr += file.name;
+      }
+      if (!(confirm("File(s) \"" + filesStr + "\" are on server. Do you want to overwrite them?"))) {
         return Q.reject(error);
       }
     };

@@ -40,10 +40,13 @@ class CheckFileExists
     .done(
         (data, textStatus, jqXHR) =>
           @_emitFail(new Error("Bad Response")) if (!data.results?)
+          foundFiles = []
           for file in data.results
-            @_emitFail(data.results) if file.status == 'found'
-
-          @_emitDone()
+            foundFiles.push(file) if file.status == 'found'
+          if foundFiles.length > 0
+            @_emitFail({foundFiles:foundFiles, results: data.results})
+          else
+            @_emitDone()
 
       )
 
