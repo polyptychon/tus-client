@@ -36,6 +36,7 @@
         type: 'POST',
         url: "" + this.options.endpoint + "/check",
         cache: false,
+        dataType: "json",
         headers: headers,
         processData: false,
         data: JSON.stringify({

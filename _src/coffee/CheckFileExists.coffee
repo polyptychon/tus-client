@@ -27,6 +27,7 @@ class CheckFileExists
       type:    'POST'
       url:     "#{@options.endpoint}/check"
       cache:   false
+      dataType: "json"
       headers: headers
       processData : false
       data:    JSON.stringify({"filenames":@filenames})
