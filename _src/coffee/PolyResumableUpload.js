@@ -75,7 +75,6 @@
         }),
         headers: headers
       };
-      console.log(options);
       return this._jqXHR = $.ajax(options).fail((function(_this) {
         return function(jqXHR, textStatus, errorThrown) {
           if (jqXHR.status === 404) {

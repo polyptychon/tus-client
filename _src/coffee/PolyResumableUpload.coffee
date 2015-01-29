@@ -54,7 +54,7 @@ class PolyResumableUpload extends ResumableUpload
       contentType: "application/json; charset=UTF-8"
       data:    JSON.stringify({ path: (@options.path+@file.name)})
       headers: headers
-    console.log(options)
+    
     @_jqXHR = $.ajax(options)
       .fail(
         (jqXHR, textStatus, errorThrown) =>

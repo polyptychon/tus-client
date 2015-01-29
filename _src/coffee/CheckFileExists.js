@@ -49,12 +49,18 @@
         };
       })(this)).done((function(_this) {
         return function(data, textStatus, jqXHR) {
-          var _ref;
-          if ((data.results == null) || ((_ref = data.results) != null ? _ref.length : void 0) > 0) {
-            return _this._emitFail(data.results);
-          } else {
-            return _this._emitDone();
+          var file, _i, _len, _ref;
+          if (data.results == null) {
+            _this._emitFail(new Error("Bad Response"));
           }
+          _ref = data.results;
+          for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+            file = _ref[_i];
+            if (file.status === 'found') {
+              _this._emitFail(data.results);
+            }
+          }
+          return _this._emitDone();
         };
       })(this));
     };
