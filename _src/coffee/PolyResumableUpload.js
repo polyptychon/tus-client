@@ -22,7 +22,8 @@
       chunkSize: null,
       minChunkSize: 51200,
       maxChunkSize: 2097152,
-      path: ""
+      path: "",
+      checksum: false
     };
 
     function PolyResumableUpload(file, options) {
@@ -71,7 +72,8 @@
         cache: false,
         contentType: "application/json; charset=UTF-8",
         data: JSON.stringify({
-          path: this.options.path + this.file.name
+          path: this.options.path + this.file.name,
+          checksum: this.options.checksum
         }),
         headers: headers
       };

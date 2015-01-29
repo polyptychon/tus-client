@@ -10,6 +10,7 @@ class PolyResumableUpload extends ResumableUpload
     minChunkSize: 51200
     maxChunkSize: 2097152
     path: ""
+    checksum: false
 
   constructor: (file, options) ->
     options = $.extend(PolyResumableUpload.DEFAULTS, options)
@@ -52,7 +53,7 @@ class PolyResumableUpload extends ResumableUpload
       url:     "#{@fileUrl}/move"
       cache:   false
       contentType: "application/json; charset=UTF-8"
-      data:    JSON.stringify({ path: (@options.path+@file.name)})
+      data:    JSON.stringify({ path: (@options.path+@file.name), checksum: @options.checksum})
       headers: headers
 
     @_jqXHR = $.ajax(options)

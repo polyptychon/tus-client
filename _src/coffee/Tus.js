@@ -105,6 +105,7 @@
     },
     checksum: function(file, options) {
       var checksum, deferred;
+      options.checksum = true;
       deferred = Q.defer();
       checksum = new FileChecksum(file, options);
       file.stoppableAction = checksum;

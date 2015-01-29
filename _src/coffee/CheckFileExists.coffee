@@ -4,6 +4,7 @@ $ = jQuery unless $?
 class CheckFileExists
 
   CheckFileExists.DEFAULTS =
+    checksum: false
     headers: {}
 
   constructor: (files, options) ->
@@ -30,7 +31,7 @@ class CheckFileExists
       contentType: "application/json; charset=UTF-8"
       headers: headers
       processData : false
-      data:    JSON.stringify({"filenames":@filenames})
+      data:    JSON.stringify({"filenames":@filenames, "checksum": @options.checksum})
 
     @_jqXHR = $.ajax(options)
     .fail(

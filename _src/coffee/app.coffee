@@ -22,7 +22,8 @@ $('input[type=file]').change( ->
     endpoint: 'http://localhost:1080/files/'
     resetBefore: $('#reset_before').prop('checked') # if resetBefore is true file always uploads from first byte
     resetAfter: true # clear localStorage after upload completes successfully
-    chunkSize: null # if chunkSize is not null then file uploads in chunks
+    chunkSize: 1 # if chunkSize is not null then file uploads in chunks
+    checksum: true
     minChunkSize: 51200
     maxChunkSize: 2097152
     moveFileAfterUpload: true

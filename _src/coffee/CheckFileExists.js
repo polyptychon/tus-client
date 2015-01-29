@@ -12,6 +12,7 @@
 
   CheckFileExists = (function() {
     CheckFileExists.DEFAULTS = {
+      checksum: false,
       headers: {}
     };
 
@@ -40,7 +41,8 @@
         headers: headers,
         processData: false,
         data: JSON.stringify({
-          "filenames": this.filenames
+          "filenames": this.filenames,
+          "checksum": this.options.checksum
         })
       };
       return this._jqXHR = $.ajax(options).fail((function(_this) {

@@ -56,6 +56,7 @@ global.gr.polyptychon.tus = {
     return deferred.promise
 
   checksum: (file, options) ->
+    options.checksum = true
     deferred = Q.defer()
     checksum = new FileChecksum(file, options)
     file.stoppableAction = checksum
